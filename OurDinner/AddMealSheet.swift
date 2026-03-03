@@ -36,7 +36,7 @@ struct AddMealSheet: View {
         return allIngredients.filter { ingredient in
             normalized(ingredient.name).contains(query) &&
             !pendingIngredients.contains(where: { $0.name == ingredient.name })
-        }
+        }.prefix(5).map { $0 }
     }
 
     private var hasExactMatch: Bool {
@@ -108,6 +108,7 @@ struct AddMealSheet: View {
 
                 // Ingredients
                 Section {
+                    // Added ingredients — swipe to delete
                     ForEach(pendingIngredients, id: \.name) { ingredient in
                         Text(ingredient.name)
                             .listRowBackground(Color.rowBackground)
@@ -116,69 +117,43 @@ struct AddMealSheet: View {
                         pendingIngredients.remove(atOffsets: offsets)
                     }
 
-                    // Input row with dropdown overlay
-                    ZStack(alignment: .topLeading) {
-                        TextField("Add ingredient...", text: $ingredientQuery)
-                            .focused($ingredientFieldFocused)
-                            .onSubmit { addIngredientFromQuery() }
+                    // Text field row
+                    TextField("Add ingredient...", text: $ingredientQuery)
+                        .focused($ingredientFieldFocused)
+                        .onSubmit { addIngredientFromQuery() }
+                        .listRowBackground(Color.rowBackground)
 
-                        if !suggestions.isEmpty || (!ingredientQuery.trimmingCharacters(in: .whitespaces).isEmpty && !hasExactMatch) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                // Spacer to push below the text field
-                                Color.clear.frame(height: 36)
-
-                                VStack(alignment: .leading, spacing: 0) {
-                                    ForEach(suggestions) { ingredient in
-                                        Button {
-                                            addSuggestion(ingredient)
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "magnifyingglass")
-                                                    .font(.caption)
-                                                    .foregroundStyle(.secondary)
-                                                Text(ingredient.name)
-                                                    .foregroundStyle(.primary)
-                                                Spacer()
-                                            }
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 10)
-                                        }
-                                        .buttonStyle(.plain)
-
-                                        if ingredient.name != suggestions.last?.name || !hasExactMatch {
-                                            Divider()
-                                        }
-                                    }
-
-                                    // "Add new" row if no exact match
-                                    if !hasExactMatch && !ingredientQuery.trimmingCharacters(in: .whitespaces).isEmpty {
-                                        Button {
-                                            addIngredientFromQuery()
-                                        } label: {
-                                            HStack {
-                                                Image(systemName: "plus.circle.fill")
-                                                    .font(.caption)
-                                                    .foregroundStyle(Color.primaryAccent)
-                                                Text("Add \"\(ingredientQuery.trimmingCharacters(in: .whitespaces))\"")
-                                                    .foregroundStyle(Color.primaryAccent)
-                                                Spacer()
-                                            }
-                                            .padding(.horizontal, 12)
-                                            .padding(.vertical, 10)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
-                                .background(.background)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 4)
-                                .padding(.trailing, 16)
-                                .zIndex(1)
+                    // Suggestion rows
+                    ForEach(suggestions) { ingredient in
+                        Button {
+                            addSuggestion(ingredient)
+                        } label: {
+                            Label {
+                                Text(ingredient.name)
+                                    .foregroundStyle(.primary)
+                            } icon: {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundStyle(.secondary)
                             }
-                            .zIndex(1)
                         }
+                        .listRowBackground(Color.rowBackground)
                     }
-                    .listRowBackground(Color.rowBackground)
+
+                    // "Add new" row when no exact match
+                    if !hasExactMatch && !ingredientQuery.trimmingCharacters(in: .whitespaces).isEmpty {
+                        Button {
+                            addIngredientFromQuery()
+                        } label: {
+                            Label {
+                                Text("Add \"\(ingredientQuery.trimmingCharacters(in: .whitespaces))\"")
+                                    .foregroundStyle(Color.primaryAccent)
+                            } icon: {
+                                Image(systemName: "plus.circle.fill")
+                                    .foregroundStyle(Color.primaryAccent)
+                            }
+                        }
+                        .listRowBackground(Color.rowBackground)
+                    }
 
                 } header: {
                     Text("Ingredients")

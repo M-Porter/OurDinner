@@ -51,7 +51,7 @@ struct AllMealsSection: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let container = try! ModelContainer(for: Meal.self, Ingredient.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
     let context = container.mainContext
     let meals = [
         Meal(name: "Pizza", isThisWeek: false),

@@ -76,7 +76,7 @@ struct ThisWeekSection: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let container = try! ModelContainer(for: Meal.self, Ingredient.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
     let context = container.mainContext
     context.insert(Meal(name: "Pasta Carbonara", isThisWeek: true))
     context.insert(Meal(name: "Tacos", isThisWeek: true))

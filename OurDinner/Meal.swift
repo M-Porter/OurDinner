@@ -12,6 +12,8 @@ import SwiftData
 final class Meal {
     var name: String = ""
     var isThisWeek: Bool = false
+    @Relationship(inverse: \Ingredient.meals)
+    var ingredients: [Ingredient] = []
 
     init(name: String, isThisWeek: Bool = false) {
         self.name = name

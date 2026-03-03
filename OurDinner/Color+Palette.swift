@@ -6,11 +6,23 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension Color {
-    static let primaryAccent     = Color(hex: "4A7C59") // nav tint, tab bar, section headers, toggle
-    static let actionButton      = Color(hex: "6B9E78") // add confirm button
-    static let listBackground    = Color(hex: "F0F4F1") // whisper sage list background
+    static let primaryAccent  = Color(light: Color(hex: "4A7C59"), dark: Color(hex: "7DBF96"))
+    static let actionButton   = Color(light: Color(hex: "6B9E78"), dark: Color(hex: "90C67C"))
+    static let listBackground = Color(light: Color(hex: "F0F4F1"), dark: Color(hex: "1C2B22"))
+    static let rowBackground      = Color(light: .white, dark: Color(hex: "243B2E"))
+    static let hintRowBackground  = Color(light: Color(hex: "D6E8DC"), dark: Color(hex: "2E5040"))
+    static let hintBackground = Color(hex: "F96E5B") // coral — same in both modes
+
+    init(light: Color, dark: Color) {
+        self.init(UIColor(dynamicProvider: { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(dark)
+                : UIColor(light)
+        }))
+    }
 
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

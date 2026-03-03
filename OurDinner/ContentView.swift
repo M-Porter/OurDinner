@@ -35,6 +35,7 @@ struct MealsView: View {
 
     @State private var showingAddMeal = false
     @State private var newMealName = ""
+    @AppStorage("hasSeenSwipeHint") private var hasSeenSwipeHint = false
 
     private var thisWeekMeals: [Meal] {
         meals.filter { $0.isThisWeek }
@@ -49,18 +50,51 @@ struct MealsView: View {
                         Text("No meals added yet")
                             .foregroundStyle(.secondary)
                             .font(.subheadline)
+                            .listRowBackground(Color.rowBackground)
                     } else {
+                        if !hasSeenSwipeHint {
+                            HStack(spacing: 10) {
+                                Image(systemName: "hand.draw.fill")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Color.primaryAccent)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Tip: Remove a meal")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(Color.primaryAccent)
+                                    Text("Swipe left on a meal to remove it from this week")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        hasSeenSwipeHint = true
+                                    }
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.subheadline)
+                                        .foregroundStyle(Color.primaryAccent.opacity(0.4))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .padding(.vertical, 4)
+                            .listRowBackground(Color.hintRowBackground)
+                        }
                         ForEach(thisWeekMeals) { meal in
                             Text(meal.name)
                                 .font(.body)
+                                .listRowBackground(Color.rowBackground)
+                                .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
                                 .swipeActions(edge: .trailing) {
-                                    Button(role: .destructive) {
+                                    Button {
                                         withAnimation {
                                             meal.isThisWeek = false
                                         }
                                     } label: {
-                                        Label("Remove", systemImage: "minus.circle")
+                                        Label { Text("Remove").fontWeight(.semibold) } icon: { Image(systemName: "minus.circle") }
                                     }
+                                    .tint(Color.hintBackground)
                                 }
                         }
                     }
@@ -82,8 +116,14 @@ struct MealsView: View {
                                 withAnimation {
                                     meal.isThisWeek = true
                                 }
+                            } onHintRequest: {
+                                withAnimation {
+                                    hasSeenSwipeHint = false
+                                }
                             }
                         }
+                        .listRowBackground(Color.rowBackground)
+                        .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
                     }
                     Button {
                         showingAddMeal = true
@@ -91,6 +131,8 @@ struct MealsView: View {
                         Label("Add meal...", systemImage: "plus.circle.fill")
                             .foregroundStyle(Color.primaryAccent)
                     }
+                    .listRowBackground(Color.rowBackground)
+                    .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
                 } header: {
                     Text("All Meals")
                         .font(.headline)
@@ -114,17 +156,21 @@ struct MealsView: View {
 struct ThisWeekToggle: View {
     let isThisWeek: Bool
     let action: () -> Void
+    var onHintRequest: (() -> Void)? = nil
 
     var body: some View {
         if isThisWeek {
-            Text("✓ This Week")
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundStyle(Color.primaryAccent)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.primaryAccent.opacity(0.12))
-                .clipShape(Capsule())
+            Button(action: { onHintRequest?() }) {
+                Text("✓ This Week")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(Color.primaryAccent)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.primaryAccent.opacity(0.12))
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
         } else {
             Button(action: action) {
                 Image(systemName: "plus.circle")

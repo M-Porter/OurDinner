@@ -111,7 +111,6 @@ struct AddMealSheet: View {
                     // Added ingredients — swipe to delete
                     ForEach(pendingIngredients, id: \.name) { ingredient in
                         Text(ingredient.name)
-                            .listRowBackground(Color.rowBackground)
                     }
                     .onDelete { offsets in
                         pendingIngredients.remove(atOffsets: offsets)
@@ -121,7 +120,6 @@ struct AddMealSheet: View {
                     TextField("Add ingredient...", text: $ingredientQuery)
                         .focused($ingredientFieldFocused)
                         .onSubmit { addIngredientFromQuery() }
-                        .listRowBackground(Color.rowBackground)
 
                     // Suggestion rows
                     ForEach(suggestions) { ingredient in
@@ -136,7 +134,6 @@ struct AddMealSheet: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
-                        .listRowBackground(Color.rowBackground)
                     }
 
                     // "Add new" row when no exact match
@@ -152,7 +149,6 @@ struct AddMealSheet: View {
                                     .foregroundStyle(Color.primaryAccent)
                             }
                         }
-                        .listRowBackground(Color.rowBackground)
                     }
 
                 } header: {

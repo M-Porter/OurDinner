@@ -53,6 +53,15 @@ struct MealsView: View {
                         ForEach(thisWeekMeals) { meal in
                             Text(meal.name)
                                 .font(.body)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        withAnimation {
+                                            meal.isThisWeek = false
+                                        }
+                                    } label: {
+                                        Label("Remove", systemImage: "minus.circle")
+                                    }
+                                }
                         }
                     }
                 } header: {
@@ -71,10 +80,16 @@ struct MealsView: View {
                             Spacer()
                             ThisWeekToggle(isThisWeek: meal.isThisWeek) {
                                 withAnimation {
-                                    meal.isThisWeek.toggle()
+                                    meal.isThisWeek = true
                                 }
                             }
                         }
+                    }
+                    Button {
+                        showingAddMeal = true
+                    } label: {
+                        Label("Add meal...", systemImage: "plus.circle.fill")
+                            .foregroundStyle(Color.primaryAccent)
                     }
                 } header: {
                     Text("All Meals")
@@ -87,16 +102,6 @@ struct MealsView: View {
             .scrollContentBackground(.hidden)
             .background(Color.listBackground)
             .navigationTitle("Meals")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showingAddMeal = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .foregroundStyle(Color.primaryAccent)
-                    }
-                }
-            }
             .sheet(isPresented: $showingAddMeal) {
                 AddMealSheet(isPresented: $showingAddMeal)
             }
@@ -111,62 +116,23 @@ struct ThisWeekToggle: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            Image(systemName: isThisWeek ? "checkmark.circle.fill" : "circle")
-                .font(.title2)
+        if isThisWeek {
+            Text("✓ This Week")
+                .font(.caption)
+                .fontWeight(.medium)
                 .foregroundStyle(Color.primaryAccent)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-// MARK: - Add Meal Sheet
-
-struct AddMealSheet: View {
-    @Environment(\.modelContext) private var modelContext
-    @Binding var isPresented: Bool
-    @State private var name = ""
-    @FocusState private var fieldFocused: Bool
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    TextField("Meal name", text: $name)
-                        .focused($fieldFocused)
-                } header: {
-                    Text("New Meal")
-                        .foregroundStyle(Color.primaryAccent)
-                        .textCase(nil)
-                }
-            }
-            .navigationTitle("Add Meal")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        isPresented = false
-                    }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Color.primaryAccent.opacity(0.12))
+                .clipShape(Capsule())
+        } else {
+            Button(action: action) {
+                Image(systemName: "plus.circle")
+                    .font(.title2)
                     .foregroundStyle(Color.primaryAccent)
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Add") {
-                        let trimmed = name.trimmingCharacters(in: .whitespaces)
-                        guard !trimmed.isEmpty else { return }
-                        modelContext.insert(Meal(name: trimmed))
-                        isPresented = false
-                    }
-                    .fontWeight(.semibold)
-                    .foregroundStyle(name.trimmingCharacters(in: .whitespaces).isEmpty
-                                     ? Color.secondary
-                                     : Color.actionButton)
-                    .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty)
-                }
             }
-            .onAppear { fieldFocused = true }
+            .buttonStyle(.plain)
         }
-        .presentationDetents([.medium])
-        .presentationDragIndicator(.visible)
     }
 }
 

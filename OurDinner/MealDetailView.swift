@@ -24,7 +24,7 @@ struct MealDetailView: View {
                     .textCase(nil)
             }
 
-            IngredientFormSection(ingredientIDs: $meal.ingredientIDs)
+            IngredientFormSection(ingredientIDs: $meal.ingredientIDs, customRowBackground: true)
         }
         .scrollContentBackground(.hidden)
         .background(Color.listBackground)

@@ -65,11 +65,15 @@ struct MealDetailView: View {
             IngredientFormSection(ingredientIDs: $meal.ingredientIDs, customRowBackground: true)
 
             Section {
-                Button("Delete Meal", role: .destructive) {
+                Button(role: .destructive) {
                     showingDeleteConfirmation = true
+                } label: {
+                    Text("Delete Meal")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
-                .tint(.red)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .listRowBackground(Color.red)
             }
         }
         .scrollContentBackground(.hidden)

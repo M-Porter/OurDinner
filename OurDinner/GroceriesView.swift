@@ -155,6 +155,7 @@ struct GroceriesView: View {
                 .padding(.horizontal)
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 

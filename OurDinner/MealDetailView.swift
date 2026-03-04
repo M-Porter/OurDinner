@@ -76,15 +76,19 @@ struct MealDetailView: View {
         .background(Color.listBackground)
         .navigationTitle(meal.name)
         .navigationBarTitleDisplayMode(.inline)
-        .confirmationDialog(
-            "Delete \(meal.name)?",
-            isPresented: $showingDeleteConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("Delete Meal", role: .destructive) { deleteMeal() }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will permanently delete the meal and any ingredients not used by other meals.")
+        .overlay {
+            Color.clear
+                .frame(width: 0, height: 0)
+                .confirmationDialog(
+                    "Delete \(meal.name)?",
+                    isPresented: $showingDeleteConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("Delete Meal", role: .destructive) { deleteMeal() }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("This will permanently delete the meal and any ingredients not used by other meals.")
+                }
         }
     }
 }

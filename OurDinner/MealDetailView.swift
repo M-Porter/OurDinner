@@ -74,15 +74,6 @@ struct MealDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 .listRowBackground(Color.red)
-            }
-        }
-        .scrollContentBackground(.hidden)
-        .background(Color.listBackground)
-        .navigationTitle(meal.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .overlay {
-            Color.clear
-                .frame(width: 0, height: 0)
                 .confirmationDialog(
                     "Delete \(meal.name)?",
                     isPresented: $showingDeleteConfirmation,
@@ -93,7 +84,13 @@ struct MealDetailView: View {
                 } message: {
                     Text("This will permanently delete the meal and any ingredients not used by other meals.")
                 }
+
+            }
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.listBackground)
+        .navigationTitle(meal.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -43,7 +43,7 @@ struct ThisWeekSection: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.subheadline)
-                                .foregroundStyle(Color.primaryAccent.opacity(0.4))
+                                .foregroundStyle(Color.primaryAccent.opacity(0.6))
                         }
                         .buttonStyle(.plain)
                     }

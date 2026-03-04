@@ -68,7 +68,7 @@ struct MealDetailView: View {
                 Button("Delete Meal", role: .destructive) {
                     showingDeleteConfirmation = true
                 }
-                .foregroundStyle(.red)
+                .tint(.red)
                 .frame(maxWidth: .infinity, alignment: .center)
             }
         }

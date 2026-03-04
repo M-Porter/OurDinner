@@ -86,6 +86,7 @@ struct IngredientFormSection: View {
                         } label: {
                             Label("Remove", systemImage: "minus.circle")
                         }
+                        .tint(.red)
                     }
                     .listRowBackground(customRowBackground ? Color.rowBackground : nil)
             }

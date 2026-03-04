@@ -53,7 +53,7 @@ struct ThisWeekSection: View {
                     Text(meal.name)
                         .font(.body)
                         .listRowBackground(Color.rowBackground)
-                        .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
+                        .listRowSeparatorTint(Color.rowSeparator)
                         .swipeActions(edge: .trailing) {
                             Button {
                                 withAnimation {

@@ -33,7 +33,7 @@ struct AllMealsSection: View {
                     }
                 }
                 .listRowBackground(Color.rowBackground)
-                .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
+                .listRowSeparatorTint(Color.rowSeparator)
             }
             Button {
                 showingAddMeal = true
@@ -42,7 +42,7 @@ struct AllMealsSection: View {
                     .foregroundStyle(Color.primaryAccent)
             }
             .listRowBackground(Color.rowBackground)
-            .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
+            .listRowSeparatorTint(Color.rowSeparator)
         } header: {
             Text("All Meals")
                 .font(.headline)

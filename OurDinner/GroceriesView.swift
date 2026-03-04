@@ -128,7 +128,7 @@ struct GroceriesView: View {
         }
         .buttonStyle(.plain)
         .listRowBackground(Color.rowBackground)
-        .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
+        .listRowSeparatorTint(Color.rowSeparator)
         .animation(.default, value: checkedIDs)
     }
 

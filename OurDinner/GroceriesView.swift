@@ -96,6 +96,7 @@ struct GroceriesView: View {
                     .background(Color.listBackground)
                 }
             }
+            .background(Color.listBackground)
             .navigationTitle("Groceries")
         }
     }

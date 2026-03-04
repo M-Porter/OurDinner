@@ -25,6 +25,8 @@ struct MealDetailView: View {
 
             IngredientFormSection(ingredientIDs: $meal.ingredientIDs)
         }
+        .scrollContentBackground(.hidden)
+        .background(Color.listBackground)
         .navigationTitle(meal.name)
         .navigationBarTitleDisplayMode(.inline)
     }

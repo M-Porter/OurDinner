@@ -16,17 +16,19 @@ struct AllMealsSection: View {
     var body: some View {
         Section {
             ForEach(meals) { meal in
-                HStack {
-                    Text(meal.name)
-                        .font(.body)
-                    Spacer()
-                    ThisWeekToggle(isThisWeek: meal.isThisWeek) {
-                        withAnimation {
-                            meal.isThisWeek = true
-                        }
-                    } onHintRequest: {
-                        withAnimation {
-                            hasSeenSwipeHint = false
+                NavigationLink(value: meal) {
+                    HStack {
+                        Text(meal.name)
+                            .font(.body)
+                        Spacer()
+                        ThisWeekToggle(isThisWeek: meal.isThisWeek) {
+                            withAnimation {
+                                meal.isThisWeek = true
+                            }
+                        } onHintRequest: {
+                            withAnimation {
+                                hasSeenSwipeHint = false
+                            }
                         }
                     }
                 }

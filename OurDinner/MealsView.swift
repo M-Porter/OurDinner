@@ -36,6 +36,9 @@ struct MealsView: View {
             .scrollContentBackground(.hidden)
             .background(Color.listBackground)
             .navigationTitle("Meals")
+            .navigationDestination(for: Meal.self) { meal in
+                MealDetailView(meal: meal)
+            }
             .sheet(isPresented: $showingAddMeal) {
                 AddMealSheet(isPresented: $showingAddMeal)
             }

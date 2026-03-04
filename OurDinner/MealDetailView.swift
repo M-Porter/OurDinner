@@ -73,11 +73,6 @@ struct MealDetailView: View {
         ingredientFieldFocused = true
     }
 
-    private func removeIngredients(at offsets: IndexSet) {
-        let idsToRemove = offsets.map { mealIngredients[$0].id.uuidString }
-        meal.ingredientIDs.removeAll { idsToRemove.contains($0) }
-    }
-
     // MARK: - Body
 
     var body: some View {
@@ -95,9 +90,13 @@ struct MealDetailView: View {
             Section {
                 ForEach(mealIngredients, id: \.id) { ingredient in
                     Text(ingredient.name)
-                }
-                .onDelete { offsets in
-                    removeIngredients(at: offsets)
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                meal.ingredientIDs.removeAll { $0 == ingredient.id.uuidString }
+                            } label: {
+                                Label("Remove", systemImage: "minus.circle")
+                            }
+                        }
                 }
 
                 // Text field row

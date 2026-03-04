@@ -62,7 +62,7 @@ struct ThisWeekSection: View {
                             } label: {
                                 Label { Text("Remove").fontWeight(.semibold) } icon: { Image(systemName: "minus.circle") }
                             }
-                            .tint(Color.hintBackground)
+                            .tint(.red)
                         }
                 }
             }

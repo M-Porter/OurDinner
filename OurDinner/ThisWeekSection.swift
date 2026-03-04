@@ -11,6 +11,7 @@ import SwiftData
 struct ThisWeekSection: View {
     let thisWeekMeals: [Meal]
     @Binding var hasSeenSwipeHint: Bool
+    var onRemove: (Meal) -> Void
 
     var body: some View {
         Section {
@@ -57,7 +58,7 @@ struct ThisWeekSection: View {
                         .swipeActions(edge: .trailing) {
                             Button {
                                 withAnimation {
-                                    meal.isThisWeek = false
+                                    onRemove(meal)
                                 }
                             } label: {
                                 Label { Text("Remove").fontWeight(.semibold) } icon: { Image(systemName: "minus.circle") }
@@ -86,7 +87,8 @@ struct ThisWeekSection: View {
     return List {
         ThisWeekSection(
             thisWeekMeals: thisWeekMeals,
-            hasSeenSwipeHint: .constant(false)
+            hasSeenSwipeHint: .constant(false),
+            onRemove: { _ in }
         )
     }
     .listStyle(.insetGrouped)

@@ -69,7 +69,6 @@ struct MealDetailView: View {
                     showingDeleteConfirmation = true
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .listRowBackground(Color.rowBackground)
             }
         }
         .scrollContentBackground(.hidden)

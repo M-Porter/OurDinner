@@ -51,19 +51,15 @@ struct AllMealsSection: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, Ingredient.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
-    let context = container.mainContext
-    let meals = [
-        Meal(name: "Pizza", isThisWeek: false),
-        Meal(name: "Stir Fry", isThisWeek: false),
-        Meal(name: "Pasta Carbonara", isThisWeek: true),
-        Meal(name: "Burgers", isThisWeek: false),
-    ]
-    meals.forEach { context.insert($0) }
+    let container = try! ModelContainer(
+        for: Meal.self, Ingredient.self, GroceryCheck.self,
+        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
+    )
+    let fixtures = PreviewFixtures.seed(into: container.mainContext)
 
     return List {
         AllMealsSection(
-            meals: meals,
+            meals: fixtures.meals,
             hasSeenSwipeHint: .constant(true),
             showingAddMeal: .constant(false)
         )

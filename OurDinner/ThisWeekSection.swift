@@ -76,16 +76,18 @@ struct ThisWeekSection: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, Ingredient.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
-    let context = container.mainContext
-    context.insert(Meal(name: "Pasta Carbonara", isThisWeek: true))
-    context.insert(Meal(name: "Tacos", isThisWeek: true))
+    let container = try! ModelContainer(
+        for: Meal.self, Ingredient.self, GroceryCheck.self,
+        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
+    )
+    let fixtures = PreviewFixtures.seed(into: container.mainContext)
+    let thisWeekMeals = fixtures.meals.filter { $0.isThisWeek }
 
     return List {
-        ThisWeekSection(thisWeekMeals: [
-            Meal(name: "Pasta Carbonara", isThisWeek: true),
-            Meal(name: "Tacos", isThisWeek: true),
-        ], hasSeenSwipeHint: .constant(false))
+        ThisWeekSection(
+            thisWeekMeals: thisWeekMeals,
+            hasSeenSwipeHint: .constant(false)
+        )
     }
     .listStyle(.insetGrouped)
     .modelContainer(container)

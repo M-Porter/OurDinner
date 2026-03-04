@@ -41,16 +41,19 @@ struct GroceriesView: View {
         // Build a lookup from UUID string → Ingredient
         let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id.uuidString, $0) })
 
-        // Resolve names, then sort: unchecked first, then alphabetical within each group
+        // Resolve names and sort alphabetically
         return counts.compactMap { id, count in
             guard let ingredient = lookup[id] else { return nil }
             return GroceryItem(id: id, name: ingredient.name, count: count)
-        }.sorted {
-            let aChecked = checkedIDs.contains($0.id)
-            let bChecked = checkedIDs.contains($1.id)
-            if aChecked != bChecked { return !aChecked }
-            return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-        }
+        }.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    private var uncheckedGroceries: [GroceryItem] {
+        groceries.filter { !checkedIDs.contains($0.id) }
+    }
+
+    private var checkedGroceries: [GroceryItem] {
+        groceries.filter { checkedIDs.contains($0.id) }
     }
 
     var body: some View {
@@ -63,34 +66,15 @@ struct GroceriesView: View {
                 } else {
                     List {
                         Section {
-                            ForEach(groceries, id: \.id) { item in
-                                let isChecked = checkedIDs.contains(item.id)
-                                Button {
-                                    toggleCheck(ingredientID: item.id)
-                                } label: {
-                                    HStack(spacing: 12) {
-                                        Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-                                            .font(.title3)
-                                            .foregroundStyle(isChecked ? Color.primaryAccent : .secondary)
-
-                                        Text(item.name)
-                                            .font(.body)
-                                            .foregroundStyle(isChecked ? .secondary : .primary)
-                                            .strikethrough(isChecked, color: .secondary)
-
-                                        Spacer()
-
-                                        if item.count > 1 && !isChecked {
-                                            Text("x\(item.count)")
-                                                .foregroundStyle(.secondary)
-                                                .monospacedDigit()
-                                        }
-                                    }
+                            if uncheckedGroceries.isEmpty {
+                                Text("All done!")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    .listRowBackground(Color.rowBackground)
+                            } else {
+                                ForEach(uncheckedGroceries, id: \.id) { item in
+                                    groceryRow(item: item, isChecked: false)
                                 }
-                                .buttonStyle(.plain)
-                                .listRowBackground(Color.rowBackground)
-                                .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
-                                .animation(.default, value: checkedIDs)
                             }
                         } header: {
                             Text("This Week")
@@ -98,15 +82,54 @@ struct GroceriesView: View {
                                 .foregroundStyle(Color.primaryAccent)
                                 .textCase(nil)
                         }
+
+                        if !checkedGroceries.isEmpty {
+                            Section {
+                                ForEach(checkedGroceries, id: \.id) { item in
+                                    groceryRow(item: item, isChecked: true)
+                                }
+                            }
+                        }
                     }
                     .listStyle(.insetGrouped)
                     .scrollContentBackground(.hidden)
                     .background(Color.listBackground)
-
                 }
             }
             .navigationTitle("Groceries")
         }
+    }
+
+    // MARK: - Row
+
+    @ViewBuilder
+    private func groceryRow(item: GroceryItem, isChecked: Bool) -> some View {
+        Button {
+            toggleCheck(ingredientID: item.id)
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(isChecked ? Color.primaryAccent : .secondary)
+
+                Text(item.name)
+                    .font(.body)
+                    .foregroundStyle(isChecked ? .secondary : .primary)
+                    .strikethrough(isChecked, color: .secondary)
+
+                Spacer()
+
+                if item.count > 1 && !isChecked {
+                    Text("x\(item.count)")
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .listRowBackground(Color.rowBackground)
+        .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
+        .animation(.default, value: checkedIDs)
     }
 
     // MARK: - Actions
@@ -137,29 +160,6 @@ struct GroceriesView: View {
 // MARK: - Preview
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, Ingredient.self, GroceryCheck.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
-    let context = container.mainContext
-
-    // Ingredients — some shared across meals
-    let chicken  = Ingredient(name: "Chicken")
-    let garlic   = Ingredient(name: "Garlic")
-    let pasta    = Ingredient(name: "Pasta")
-    let parmesan = Ingredient(name: "Parmesan")
-    let eggs     = Ingredient(name: "Eggs")
-    [chicken, garlic, pasta, parmesan, eggs].forEach { context.insert($0) }
-
-    // Meals this week — garlic appears in both → x2
-    let carbonara = Meal(name: "Pasta Carbonara", isThisWeek: true)
-    carbonara.ingredientIDs = [pasta.id.uuidString, eggs.id.uuidString, parmesan.id.uuidString, garlic.id.uuidString]
-
-    let stirFry = Meal(name: "Stir Fry", isThisWeek: true)
-    stirFry.ingredientIDs = [chicken.id.uuidString, garlic.id.uuidString]
-
-    [carbonara, stirFry].forEach { context.insert($0) }
-
-    // Pre-check one item so the checked state is visible in preview
-    context.insert(GroceryCheck(ingredientID: eggs.id.uuidString))
-
-    return GroceriesView()
-        .modelContainer(container)
+    GroceriesView()
+        .modelContainer(PreviewFixtures.makeContainer())
 }

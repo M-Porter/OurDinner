@@ -75,21 +75,6 @@ struct ThisWeekToggle: View {
 }
 
 #Preview {
-    let container = try! ModelContainer(for: Meal.self, Ingredient.self, configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true))
-    let context = container.mainContext
-
-    let meals: [(String, Bool)] = [
-        ("Pasta Carbonara", true),
-        ("Tacos", true),
-        ("Pizza", false),
-        ("Stir Fry", false),
-        ("Chicken Soup", false),
-        ("Burgers", false),
-    ]
-    for (name, isThisWeek) in meals {
-        context.insert(Meal(name: name, isThisWeek: isThisWeek))
-    }
-
-    return MealsView()
-        .modelContainer(container)
+    MealsView()
+        .modelContainer(PreviewFixtures.makeContainer())
 }

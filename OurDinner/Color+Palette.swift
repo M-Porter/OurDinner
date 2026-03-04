@@ -14,7 +14,6 @@ extension Color {
     static let listBackground = Color(light: Color(hex: "F0F4F1"), dark: Color(hex: "1C2B22"))
     static let rowBackground      = Color(light: .white, dark: Color(hex: "243B2E"))
     static let hintRowBackground  = Color(light: Color(hex: "D6E8DC"), dark: Color(hex: "2E5040"))
-    static let hintBackground = Color(hex: "F96E5B") // coral — same in both modes
 
     init(light: Color, dark: Color) {
         self.init(UIColor(dynamicProvider: { traits in

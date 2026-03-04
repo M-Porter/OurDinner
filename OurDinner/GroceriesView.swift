@@ -53,6 +53,7 @@ struct GroceriesView: View {
                             ForEach(groceries, id: \.name) { item in
                                 HStack {
                                     Text(item.name)
+                                        .font(.body)
                                     Spacer()
                                     if item.count > 1 {
                                         Text("x\(item.count)")
@@ -60,9 +61,12 @@ struct GroceriesView: View {
                                             .monospacedDigit()
                                     }
                                 }
+                                .listRowBackground(Color.rowBackground)
+                                .listRowSeparatorTint(Color.primaryAccent.opacity(0.3))
                             }
                         } header: {
                             Text("This Week")
+                                .font(.headline)
                                 .foregroundStyle(Color.primaryAccent)
                                 .textCase(nil)
                         }

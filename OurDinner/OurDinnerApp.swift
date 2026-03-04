@@ -14,6 +14,7 @@ struct OurDinnerApp: App {
         let schema = Schema([
             Meal.self,
             Ingredient.self,
+            GroceryCheck.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .none)
 

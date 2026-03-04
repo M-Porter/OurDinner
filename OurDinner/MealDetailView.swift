@@ -17,6 +17,7 @@ struct MealDetailView: View {
         Form {
             Section {
                 TextField("Meal name", text: $meal.name)
+                    .listRowBackground(Color.rowBackground)
             } header: {
                 Text("Meal Name")
                     .foregroundStyle(Color.primaryAccent)

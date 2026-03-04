@@ -86,12 +86,14 @@ struct IngredientFormSection: View {
                             Label("Remove", systemImage: "minus.circle")
                         }
                     }
+                    .listRowBackground(Color.rowBackground)
             }
 
             // Text field row
             TextField("Add ingredient...", text: $ingredientQuery)
                 .focused($ingredientFieldFocused)
                 .onSubmit { addIngredientFromQuery() }
+                .listRowBackground(Color.rowBackground)
 
             // Suggestion rows
             ForEach(suggestions) { ingredient in
@@ -106,6 +108,7 @@ struct IngredientFormSection: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+                .listRowBackground(Color.rowBackground)
             }
 
             // "Add new" row when no exact match
@@ -121,6 +124,7 @@ struct IngredientFormSection: View {
                             .foregroundStyle(Color.primaryAccent)
                     }
                 }
+                .listRowBackground(Color.rowBackground)
             }
         } header: {
             Text("Ingredients")

@@ -1,5 +1,5 @@
 //
-//  Item.swift
+//  Meal.swift
 //  OurDinner
 //
 //  Created by Matthew Porter on 2/28/26.
@@ -12,8 +12,7 @@ import SwiftData
 final class Meal {
     var name: String = ""
     var isThisWeek: Bool = false
-    @Relationship(inverse: \Ingredient.meals)
-    var ingredients: [Ingredient] = []
+    var ingredientIDs: [String] = []
 
     init(name: String, isThisWeek: Bool = false) {
         self.name = name

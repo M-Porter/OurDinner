@@ -10,10 +10,11 @@ import SwiftData
 
 @Model
 final class Ingredient {
+    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
-    var meals: [Meal] = []
 
     init(name: String) {
+        self.id = UUID()
         self.name = name
     }
 }

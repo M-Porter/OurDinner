@@ -81,11 +81,11 @@ struct AddMealSheet: View {
         modelContext.insert(meal)
 
         for ingredient in pendingIngredients {
-            // Insert new ingredients, existing ones are already in the store
+            // Insert new ingredients; existing ones are already in the store
             if ingredient.modelContext == nil {
                 modelContext.insert(ingredient)
             }
-            meal.ingredients.append(ingredient)
+            meal.ingredientIDs.append(ingredient.id.uuidString)
         }
 
         isPresented = false

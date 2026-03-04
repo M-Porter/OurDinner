@@ -63,30 +63,32 @@ struct MealDetailView: View {
             }
 
             IngredientFormSection(ingredientIDs: $meal.ingredientIDs, customRowBackground: true)
+
+            Section {
+                Button("Delete Meal", role: .destructive) {
+                    showingDeleteConfirmation = true
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .listRowBackground(Color.rowBackground)
+            }
         }
         .scrollContentBackground(.hidden)
         .background(Color.listBackground)
         .navigationTitle(meal.name)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showingDeleteConfirmation = true
-                } label: {
-                    Image(systemName: "trash")
+        .overlay {
+            Color.clear
+                .frame(width: 0, height: 0)
+                .confirmationDialog(
+                    "Delete \(meal.name)?",
+                    isPresented: $showingDeleteConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("Delete Meal", role: .destructive) { deleteMeal() }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("This will permanently delete the meal and any ingredients not used by other meals.")
                 }
-                .tint(.red)
-            }
-        }
-        .confirmationDialog(
-            "Delete \(meal.name)?",
-            isPresented: $showingDeleteConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("Delete Meal", role: .destructive) { deleteMeal() }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This will permanently delete the meal and any ingredients not used by other meals.")
         }
     }
 }

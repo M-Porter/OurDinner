@@ -6,13 +6,10 @@
 //
 
 import Foundation
-import SwiftData
+import SQLiteData
 
-@Model
-final class GroceryCheck {
-    @Attribute(.unique) var ingredientID: String = ""
-
-    init(ingredientID: String) {
-        self.ingredientID = ingredientID
-    }
+@Table
+struct GroceryCheck {
+    @Column(primaryKey: true)
+    let ingredientID: UUID
 }

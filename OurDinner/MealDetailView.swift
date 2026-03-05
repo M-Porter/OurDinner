@@ -6,20 +6,31 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 struct MealDetailView: View {
-    @Bindable var meal: Meal
+    @State var meal: Meal
 
-    @Environment(\.modelContext) private var modelContext
+    @Dependency(\.defaultDatabase) var database
     @Environment(\.dismiss) private var dismiss
-    @Query(sort: \Meal.name) private var allMeals: [Meal]
-    @Query(sort: \Ingredient.name) private var allIngredients: [Ingredient]
-    @Query private var groceryChecks: [GroceryCheck]
+    @FetchAll(Meal.order(by: \.name)) private var allMeals: [Meal]
+    @FetchAll(Ingredient.order(by: \.name)) private var allIngredients: [Ingredient]
+    @FetchAll var groceryChecks: [GroceryCheck]
 
+    @State private var stagedIngredients: [Ingredient] = []
     @State private var showingDeleteConfirmation = false
 
     // MARK: - Actions
+
+    private func saveMeal() {
+        try? database.write { db in
+            for ingredient in stagedIngredients {
+                try Ingredient.insert(ingredient).execute(db)
+            }
+            try Meal.update(meal).execute(db)
+        }
+        stagedIngredients = []
+    }
 
     private func deleteMeal() {
         // Ingredient IDs referenced by every other meal
@@ -33,19 +44,21 @@ struct MealDetailView: View {
         let orphanedIDs = meal.ingredientIDs.filter { !otherMealIngredientIDs.contains($0) }
 
         // Build lookup to resolve ingredient IDs → Ingredient objects
-        let ingredientLookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id.uuidString, $0) })
+        let ingredientLookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id, $0) })
 
-        // Delete orphaned ingredients and their grocery checks
-        for id in orphanedIDs {
-            if let ingredient = ingredientLookup[id] {
-                modelContext.delete(ingredient)
+        try? database.write { db in
+            // Delete orphaned ingredients and their grocery checks
+            for id in orphanedIDs {
+                if let ingredient = ingredientLookup[id] {
+                    try Ingredient.delete(ingredient).execute(db)
+                }
+                if let check = groceryChecks.first(where: { $0.ingredientID == id }) {
+                    try GroceryCheck.delete(check).execute(db)
+                }
             }
-            if let check = groceryChecks.first(where: { $0.ingredientID == id }) {
-                modelContext.delete(check)
-            }
+            try Meal.delete(meal).execute(db)
         }
 
-        modelContext.delete(meal)
         dismiss()
     }
 
@@ -62,7 +75,15 @@ struct MealDetailView: View {
                     .textCase(nil)
             }
 
-            IngredientFormSection(ingredientIDs: $meal.ingredientIDs, customRowBackground: true)
+            IngredientFormSection(
+                ingredientIDs: $meal.ingredientIDs,
+                onCreateIngredient: { name in
+                    let new = Ingredient(id: UUID(), name: name)
+                    stagedIngredients.append(new)
+                    return new.id
+                },
+                customRowBackground: true
+            )
 
             Section {
                 Button(role: .destructive) {
@@ -84,28 +105,32 @@ struct MealDetailView: View {
                 } message: {
                     Text("This will permanently delete the meal and any ingredients not used by other meals.")
                 }
-
             }
         }
         .scrollContentBackground(.hidden)
         .background(Color.listBackground)
         .navigationTitle(meal.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Save") {
+                    saveMeal()
+                }
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.actionButton)
+            }
+        }
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    let container = try! ModelContainer(
-        for: Meal.self, Ingredient.self, GroceryCheck.self,
-        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
-    )
-    let fixtures = PreviewFixtures.seed(into: container.mainContext)
-    let meal = fixtures.meals.first!
+    let db = try! PreviewFixtures.makeDatabase()
+    let _ = prepareDependencies { $0.defaultDatabase = db }
+    let meal = try! PreviewFixtures.seed(into: db).meals.first!
 
-    return NavigationStack {
+    NavigationStack {
         MealDetailView(meal: meal)
     }
-    .modelContainer(container)
 }

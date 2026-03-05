@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct AllMealsSection: View {
     let meals: [Meal]
     @Binding var hasSeenSwipeHint: Bool
     @Binding var showingAddMeal: Bool
+    var onToggle: (Meal) -> Void
 
     var body: some View {
         Section {
@@ -23,7 +23,7 @@ struct AllMealsSection: View {
                         Spacer()
                         ThisWeekToggle(isThisWeek: meal.isThisWeek) {
                             withAnimation {
-                                meal.isThisWeek = true
+                                onToggle(meal)
                             }
                         } onHintRequest: {
                             withAnimation {
@@ -52,20 +52,19 @@ struct AllMealsSection: View {
     }
 }
 
-#Preview {
-    let container = try! ModelContainer(
-        for: Meal.self, Ingredient.self, GroceryCheck.self,
-        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
-    )
-    let fixtures = PreviewFixtures.seed(into: container.mainContext)
+// MARK: - Preview
 
-    return List {
+#Preview {
+    let db = try! PreviewFixtures.makeDatabase()
+    let _ = prepareDependencies { $0.defaultDatabase = db }
+
+    List {
         AllMealsSection(
-            meals: fixtures.meals,
+            meals: try! PreviewFixtures.seed(into: db).meals,
             hasSeenSwipeHint: .constant(true),
-            showingAddMeal: .constant(false)
+            showingAddMeal: .constant(false),
+            onToggle: { _ in }
         )
     }
     .listStyle(.insetGrouped)
-    .modelContainer(container)
 }

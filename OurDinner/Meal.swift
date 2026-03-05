@@ -6,18 +6,13 @@
 //
 
 import Foundation
-import SwiftData
+import SQLiteData
 
-@Model
-final class Meal {
-    @Attribute(.unique) var id: UUID = UUID()
-    var name: String = ""
-    var isThisWeek: Bool = false
-    var ingredientIDs: [String] = []
-
-    init(name: String, isThisWeek: Bool = false) {
-        self.id = UUID()
-        self.name = name
-        self.isThisWeek = isThisWeek
-    }
+@Table
+struct Meal: Identifiable {
+    let id: UUID
+    var name: String
+    var isThisWeek: Bool
+    @Column(as: [UUID].JSONRepresentation.self)
+    var ingredientIDs: [UUID]
 }

@@ -6,29 +6,19 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 @main
 struct OurDinnerApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Meal.self,
-            Ingredient.self,
-            GroceryCheck.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false, cloudKitDatabase: .none)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+    init() {
+        prepareDependencies {
+            $0.defaultDatabase = try! appDatabase()
         }
-    }()
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
     }
 }

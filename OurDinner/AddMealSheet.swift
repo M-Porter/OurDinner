@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 struct AddMealSheet: View {
-    @Environment(\.modelContext) private var modelContext
+    @Dependency(\.defaultDatabase) var database
     @Binding var isPresented: Bool
 
     @State private var mealName = ""
-    @State private var pendingIngredientIDs: [String] = []
+    @State private var pendingIngredientIDs: [UUID] = []
+    @State private var stagedIngredients: [Ingredient] = []
     @FocusState private var mealNameFocused: Bool
 
     // MARK: - Actions
@@ -22,9 +23,19 @@ struct AddMealSheet: View {
         let trimmed = mealName.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
-        let meal = Meal(name: trimmed)
-        meal.ingredientIDs = pendingIngredientIDs
-        modelContext.insert(meal)
+        let meal = Meal(
+            id: UUID(),
+            name: trimmed,
+            isThisWeek: false,
+            ingredientIDs: pendingIngredientIDs
+        )
+
+        try? database.write { db in
+            for ingredient in stagedIngredients {
+                try Ingredient.insert(ingredient).execute(db)
+            }
+            try Meal.insert(meal).execute(db)
+        }
 
         isPresented = false
     }
@@ -43,7 +54,14 @@ struct AddMealSheet: View {
                         .textCase(nil)
                 }
 
-                IngredientFormSection(ingredientIDs: $pendingIngredientIDs)
+                IngredientFormSection(
+                    ingredientIDs: $pendingIngredientIDs,
+                    onCreateIngredient: { name in
+                        let new = Ingredient(id: UUID(), name: name)
+                        stagedIngredients.append(new)
+                        return new.id
+                    }
+                )
             }
             .navigationTitle("Add Meal")
             .navigationBarTitleDisplayMode(.inline)
@@ -73,12 +91,8 @@ struct AddMealSheet: View {
 // MARK: - Preview
 
 #Preview {
-    let container = try! ModelContainer(
-        for: Meal.self, Ingredient.self, GroceryCheck.self,
-        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
-    )
-    PreviewFixtures.seed(into: container.mainContext)
-
-    return AddMealSheet(isPresented: .constant(true))
-        .modelContainer(container)
+    let _ = prepareDependencies {
+        $0.defaultDatabase = try! PreviewFixtures.makeDatabase()
+    }
+    AddMealSheet(isPresented: .constant(true))
 }

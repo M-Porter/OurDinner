@@ -6,15 +6,10 @@
 //
 
 import Foundation
-import SwiftData
+import SQLiteData
 
-@Model
-final class Ingredient {
-    @Attribute(.unique) var id: UUID = UUID()
-    var name: String = ""
-
-    init(name: String) {
-        self.id = UUID()
-        self.name = name
-    }
+@Table
+struct Ingredient: Identifiable {
+    let id: UUID
+    var name: String
 }

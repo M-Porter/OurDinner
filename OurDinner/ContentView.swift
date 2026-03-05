@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
     var body: some View {
@@ -26,6 +25,8 @@ struct ContentView: View {
 }
 
 #Preview {
+    let _ = prepareDependencies {
+        $0.defaultDatabase = try! PreviewFixtures.makeDatabase()
+    }
     ContentView()
-        .modelContainer(PreviewFixtures.makeContainer())
 }

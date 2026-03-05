@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 struct MealsView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Meal.name) private var meals: [Meal]
-    @Query private var groceryChecks: [GroceryCheck]
+    @Dependency(\.defaultDatabase) var database
+    @FetchAll(Meal.order(by: \.name)) private var meals: [Meal]
+    @FetchAll var groceryChecks: [GroceryCheck]
 
     @State private var showingAddMeal = false
     @AppStorage("hasSeenSwipeHint") private var hasSeenSwipeHint = false
@@ -21,8 +21,6 @@ struct MealsView: View {
     }
 
     private func removeMealFromThisWeek(_ meal: Meal) {
-        meal.isThisWeek = false
-
         // Collect ingredient IDs still referenced by remaining This Week meals
         let remainingIDs = Set(
             meals
@@ -30,11 +28,28 @@ struct MealsView: View {
                 .flatMap { $0.ingredientIDs }
         )
 
-        // Delete checks for ingredients that are no longer in any This Week meal
-        for ingredientID in meal.ingredientIDs where !remainingIDs.contains(ingredientID) {
-            if let check = groceryChecks.first(where: { $0.ingredientID == ingredientID }) {
-                modelContext.delete(check)
+        // Checks to delete: ingredients leaving This Week entirely
+        let checksToDelete = groceryChecks.filter { check in
+            meal.ingredientIDs.contains(check.ingredientID) &&
+            !remainingIDs.contains(check.ingredientID)
+        }
+
+        var updated = meal
+        updated.isThisWeek = false
+
+        try? database.write { db in
+            for check in checksToDelete {
+                try GroceryCheck.delete(check).execute(db)
             }
+            try Meal.update(updated).execute(db)
+        }
+    }
+
+    private func addMealToThisWeek(_ meal: Meal) {
+        var updated = meal
+        updated.isThisWeek = true
+        try? database.write { db in
+            try Meal.update(updated).execute(db)
         }
     }
 
@@ -49,7 +64,8 @@ struct MealsView: View {
                 AllMealsSection(
                     meals: meals,
                     hasSeenSwipeHint: $hasSeenSwipeHint,
-                    showingAddMeal: $showingAddMeal
+                    showingAddMeal: $showingAddMeal,
+                    onToggle: addMealToThisWeek
                 )
             }
             .listStyle(.insetGrouped)
@@ -98,6 +114,8 @@ struct ThisWeekToggle: View {
 }
 
 #Preview {
+    let _ = prepareDependencies {
+        $0.defaultDatabase = try! PreviewFixtures.makeDatabase()
+    }
     MealsView()
-        .modelContainer(PreviewFixtures.makeContainer())
 }

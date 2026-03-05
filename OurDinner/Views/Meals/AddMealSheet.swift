@@ -51,6 +51,7 @@ struct AddMealSheet: View {
 
                 IngredientFormSection(
                     ingredientIDs: $pendingIngredientIDs,
+                    stagedIngredients: stagedIngredients,
                     onCreateIngredient: { name in
                         let new = Ingredient.create(name: name)
                         stagedIngredients.append(new)

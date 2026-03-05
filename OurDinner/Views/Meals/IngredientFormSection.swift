@@ -12,6 +12,7 @@ struct IngredientFormSection: View {
     @FetchAll(Ingredient.order(by: \.name)) private var allIngredients: [Ingredient]
 
     @Binding var ingredientIDs: [UUID]
+    var stagedIngredients: [Ingredient] = []
     /// Called when the user confirms a brand-new ingredient name that doesn't exist yet.
     /// The closure should create and stage the ingredient, then return its ID.
     var onCreateIngredient: (String) -> UUID
@@ -24,7 +25,9 @@ struct IngredientFormSection: View {
     // MARK: - Computed
 
     private var currentIngredients: [Ingredient] {
-        let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id, $0) })
+        let fromDB = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id, $0) })
+        let fromStaged = Dictionary(uniqueKeysWithValues: stagedIngredients.map { ($0.id, $0) })
+        let lookup = fromDB.merging(fromStaged) { _, staged in staged }
         return ingredientIDs.compactMap { lookup[$0] }
     }
 

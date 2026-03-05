@@ -55,8 +55,7 @@ struct AllMealsSection: View {
 // MARK: - Preview
 
 #Preview {
-    let db = try! PreviewFixtures.makeDatabase()
-    let _ = prepareDependencies { $0.defaultDatabase = db }
+    let db = PreviewFixtures.prepare()
 
     List {
         AllMealsSection(

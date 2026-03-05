@@ -141,8 +141,7 @@ struct IngredientFormSection: View {
 // MARK: - Preview
 
 #Preview {
-    let db = try! PreviewFixtures.makeDatabase()
-    let _ = prepareDependencies { $0.defaultDatabase = db }
+    let db = PreviewFixtures.prepare()
     let fixtures = try! PreviewFixtures.seed(into: db)
     let meal = fixtures.meals.first!
 

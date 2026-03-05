@@ -10,6 +10,14 @@ import Foundation
 import SQLiteData
 
 struct PreviewFixtures {
+    static func prepare() -> any DatabaseWriter {
+        let db = try! makeDatabase()
+        prepareDependencies {
+            $0.defaultDatabase = db
+        }
+        return db
+    }
+    
     /// Creates an in-memory database seeded with realistic fixture data.
     static func makeDatabase() throws -> any DatabaseWriter {
         let database = try DatabaseQueue()

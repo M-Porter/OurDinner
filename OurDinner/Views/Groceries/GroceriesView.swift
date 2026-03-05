@@ -166,8 +166,6 @@ struct GroceriesView: View {
 // MARK: - Preview
 
 #Preview {
-    let _ = prepareDependencies {
-        $0.defaultDatabase = try! PreviewFixtures.makeDatabase()
-    }
+    let _ = PreviewFixtures.prepare()
     GroceriesView()
 }

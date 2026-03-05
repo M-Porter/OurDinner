@@ -78,8 +78,7 @@ struct ThisWeekSection: View {
 // MARK: - Preview
 
 #Preview {
-    let db = try! PreviewFixtures.makeDatabase()
-    let _ = prepareDependencies { $0.defaultDatabase = db }
+    let db = PreviewFixtures.prepare()
     let thisWeekMeals = try! PreviewFixtures.seed(into: db).meals.filter { $0.isThisWeek }
 
     List {

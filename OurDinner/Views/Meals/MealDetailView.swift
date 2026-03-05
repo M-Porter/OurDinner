@@ -126,8 +126,7 @@ struct MealDetailView: View {
 // MARK: - Preview
 
 #Preview {
-    let db = try! PreviewFixtures.makeDatabase()
-    let _ = prepareDependencies { $0.defaultDatabase = db }
+    let db = PreviewFixtures.prepare()
     let meal = try! PreviewFixtures.seed(into: db).meals.first!
 
     NavigationStack {

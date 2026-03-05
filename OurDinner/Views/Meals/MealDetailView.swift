@@ -10,6 +10,7 @@ import SQLiteData
 
 struct MealDetailView: View {
     @State var meal: Meal
+    @State private var originalMeal: Meal
 
     @Dependency(\.defaultDatabase) var database
     @Environment(\.dismiss) private var dismiss
@@ -20,7 +21,16 @@ struct MealDetailView: View {
     @State private var stagedIngredients: [Ingredient] = []
     @State private var showingDeleteConfirmation = false
 
+    init(meal: Meal) {
+        _meal = State(initialValue: meal)
+        _originalMeal = State(initialValue: meal)
+    }
+
     // MARK: - Actions
+
+    private var hasChanges: Bool {
+        !stagedIngredients.isEmpty || meal != originalMeal
+    }
 
     private func saveMeal() {
         try? database.write { db in
@@ -30,6 +40,7 @@ struct MealDetailView: View {
             try Meal.update(meal.saving()).execute(db)
         }
         stagedIngredients = []
+        originalMeal = meal
     }
 
     private func deleteMeal() {
@@ -85,17 +96,26 @@ struct MealDetailView: View {
                 },
                 customRowBackground: true
             )
-
-            Section {
+        }
+        .scrollContentBackground(.hidden)
+        .background(Color.listBackground)
+        .navigationTitle(meal.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button("Save") {
+                    saveMeal()
+                }
+                .fontWeight(.medium)
+                .disabled(!hasChanges)
+            }
+            ToolbarItem(placement: .destructiveAction) {
                 Button(role: .destructive) {
                     showingDeleteConfirmation = true
                 } label: {
-                    Text("Delete Meal")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    Label("Delete", systemImage: "trash")
                 }
-                .listRowBackground(Color.red)
+                .tint(.red)
                 .confirmationDialog(
                     "Delete \(meal.name)?",
                     isPresented: $showingDeleteConfirmation,
@@ -106,19 +126,6 @@ struct MealDetailView: View {
                 } message: {
                     Text("This will permanently delete the meal and any ingredients not used by other meals.")
                 }
-            }
-        }
-        .scrollContentBackground(.hidden)
-        .background(Color.listBackground)
-        .navigationTitle(meal.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    saveMeal()
-                }
-                .fontWeight(.semibold)
-                .foregroundStyle(Color.actionButton)
             }
         }
     }

@@ -34,6 +34,11 @@ struct AddMealSheet: View {
 
         isPresented = false
     }
+    
+    private func canSaveMeal() -> Bool {
+        return !mealName.trimmingCharacters(in: .whitespaces).isEmpty
+            && stagedIngredients.count > 0
+    }
 
     // MARK: - Body
 
@@ -66,17 +71,13 @@ struct AddMealSheet: View {
                     Button("Cancel") {
                         isPresented = false
                     }
-                    .foregroundStyle(Color.primaryAccent)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
                         confirmMeal()
                     }
                     .fontWeight(.semibold)
-                    .foregroundStyle(mealName.trimmingCharacters(in: .whitespaces).isEmpty
-                                     ? Color.secondary
-                                     : Color.actionButton)
-                    .disabled(mealName.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled(!canSaveMeal())
                 }
             }
             .onAppear { mealNameFocused = true }

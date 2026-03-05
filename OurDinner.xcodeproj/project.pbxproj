@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		20B165182F59F6BC00934C9B /* SQLiteData in Frameworks */ = {isa = PBXBuildFile; productRef = 20B165172F59F6BC00934C9B /* SQLiteData */; };
+		20B1651A2F59F6BC00934C9B /* SQLiteDataTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 20B165192F59F6BC00934C9B /* SQLiteDataTestSupport */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		20BB0C412F53DC92007AC0F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -67,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20B165182F59F6BC00934C9B /* SQLiteData in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20B1651A2F59F6BC00934C9B /* SQLiteDataTestSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +136,7 @@
 			);
 			name = OurDinner;
 			packageProductDependencies = (
+				20B165172F59F6BC00934C9B /* SQLiteData */,
 			);
 			productName = OurDinner;
 			productReference = 20BB0C312F53DC92007AC0F8 /* OurDinner.app */;
@@ -152,6 +160,7 @@
 			);
 			name = OurDinnerTests;
 			packageProductDependencies = (
+				20B165192F59F6BC00934C9B /* SQLiteDataTestSupport */,
 			);
 			productName = OurDinnerTests;
 			productReference = 20BB0C402F53DC92007AC0F8 /* OurDinnerTests.xctest */;
@@ -212,6 +221,9 @@
 			);
 			mainGroup = 20BB0C282F53DC92007AC0F8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				20B165162F59F6BC00934C9B /* XCRemoteSwiftPackageReference "sqlite-data" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 20BB0C322F53DC92007AC0F8 /* Products */;
 			projectDirPath = "";
@@ -422,8 +434,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -456,8 +467,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -599,6 +609,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		20B165162F59F6BC00934C9B /* XCRemoteSwiftPackageReference "sqlite-data" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/sqlite-data";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		20B165172F59F6BC00934C9B /* SQLiteData */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20B165162F59F6BC00934C9B /* XCRemoteSwiftPackageReference "sqlite-data" */;
+			productName = SQLiteData;
+		};
+		20B165192F59F6BC00934C9B /* SQLiteDataTestSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20B165162F59F6BC00934C9B /* XCRemoteSwiftPackageReference "sqlite-data" */;
+			productName = SQLiteDataTestSupport;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 20BB0C292F53DC92007AC0F8 /* Project object */;
 }

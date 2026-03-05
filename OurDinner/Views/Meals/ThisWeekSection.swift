@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ThisWeekSection: View {
     let thisWeekMeals: [Meal]
@@ -76,15 +75,13 @@ struct ThisWeekSection: View {
     }
 }
 
-#Preview {
-    let container = try! ModelContainer(
-        for: Meal.self, Ingredient.self, GroceryCheck.self,
-        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
-    )
-    let fixtures = PreviewFixtures.seed(into: container.mainContext)
-    let thisWeekMeals = fixtures.meals.filter { $0.isThisWeek }
+// MARK: - Preview
 
-    return List {
+#Preview {
+    let db = PreviewFixtures.prepare()
+    let thisWeekMeals = try! PreviewFixtures.seed(into: db).meals.filter { $0.isThisWeek }
+
+    List {
         ThisWeekSection(
             thisWeekMeals: thisWeekMeals,
             hasSeenSwipeHint: .constant(false),
@@ -92,5 +89,4 @@ struct ThisWeekSection: View {
         )
     }
     .listStyle(.insetGrouped)
-    .modelContainer(container)
 }

@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 struct IngredientFormSection: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Ingredient.name) private var allIngredients: [Ingredient]
+    @FetchAll(Ingredient.order(by: \.name)) private var allIngredients: [Ingredient]
 
-    @Binding var ingredientIDs: [String]
+    @Binding var ingredientIDs: [UUID]
+    /// Called when the user confirms a brand-new ingredient name that doesn't exist yet.
+    /// The closure should create and stage the ingredient, then return its ID.
+    var onCreateIngredient: (String) -> UUID
+
     var customRowBackground: Bool = false
 
     @State private var ingredientQuery = ""
@@ -21,7 +24,7 @@ struct IngredientFormSection: View {
     // MARK: - Computed
 
     private var currentIngredients: [Ingredient] {
-        let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id.uuidString, $0) })
+        let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id, $0) })
         return ingredientIDs.compactMap { lookup[$0] }
     }
 
@@ -34,7 +37,7 @@ struct IngredientFormSection: View {
         let query = normalized(ingredientQuery)
         return allIngredients.filter { ingredient in
             normalized(ingredient.name).contains(query) &&
-            !ingredientIDs.contains(ingredient.id.uuidString)
+            !ingredientIDs.contains(ingredient.id)
         }.prefix(5).map { $0 }
     }
 
@@ -55,20 +58,19 @@ struct IngredientFormSection: View {
             return
         }
 
-        // Reuse existing ingredient or create a new one
+        // Reuse existing ingredient or create a new one via callback
         if let existing = allIngredients.first(where: { normalized($0.name) == normalized(trimmed) }) {
-            ingredientIDs.append(existing.id.uuidString)
+            ingredientIDs.append(existing.id)
         } else {
-            let new = Ingredient(name: trimmed)
-            modelContext.insert(new)
-            ingredientIDs.append(new.id.uuidString)
+            let newID = onCreateIngredient(trimmed)
+            ingredientIDs.append(newID)
         }
         ingredientQuery = ""
     }
 
     private func addSuggestion(_ ingredient: Ingredient) {
-        guard !ingredientIDs.contains(ingredient.id.uuidString) else { return }
-        ingredientIDs.append(ingredient.id.uuidString)
+        guard !ingredientIDs.contains(ingredient.id) else { return }
+        ingredientIDs.append(ingredient.id)
         ingredientQuery = ""
         ingredientFieldFocused = true
     }
@@ -82,7 +84,7 @@ struct IngredientFormSection: View {
                 Text(ingredient.name)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            ingredientIDs.removeAll { $0 == ingredient.id.uuidString }
+                            ingredientIDs.removeAll { $0 == ingredient.id }
                         } label: {
                             Label("Remove", systemImage: "minus.circle")
                         }
@@ -139,15 +141,14 @@ struct IngredientFormSection: View {
 // MARK: - Preview
 
 #Preview {
-    let container = try! ModelContainer(
-        for: Meal.self, Ingredient.self, GroceryCheck.self,
-        configurations: ModelConfiguration.appDefault(isStoredInMemoryOnly: true)
-    )
-    let fixtures = PreviewFixtures.seed(into: container.mainContext)
+    let db = PreviewFixtures.prepare()
+    let fixtures = try! PreviewFixtures.seed(into: db)
     let meal = fixtures.meals.first!
 
-    return Form {
-        IngredientFormSection(ingredientIDs: .constant(meal.ingredientIDs))
+    Form {
+        IngredientFormSection(
+            ingredientIDs: .constant(meal.ingredientIDs),
+            onCreateIngredient: { _ in UUID() }
+        )
     }
-    .modelContainer(container)
 }

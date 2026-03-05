@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-import SwiftData
+import SQLiteData
 
 // MARK: - Internal types
 
 private struct GroceryItem {
-    let id: String  // ingredient UUID string
+    let id: UUID  // ingredient UUID
     let name: String
     let count: Int
 }
@@ -19,27 +19,27 @@ private struct GroceryItem {
 // MARK: - View
 
 struct GroceriesView: View {
-    @Environment(\.modelContext) private var modelContext
+    @Dependency(\.defaultDatabase) var database
 
-    @Query(filter: #Predicate<Meal> { $0.isThisWeek }) private var thisWeekMeals: [Meal]
-    @Query(sort: \Ingredient.name) private var allIngredients: [Ingredient]
-    @Query private var checkedItems: [GroceryCheck]
+    @FetchAll(Meal.where(\.isThisWeek)) private var thisWeekMeals: [Meal]
+    @FetchAll(Ingredient.order(by: \.name)) private var allIngredients: [Ingredient]
+    @FetchAll var checkedItems: [GroceryCheck]
 
-    private var checkedIDs: Set<String> {
+    private var checkedIDs: Set<UUID> {
         Set(checkedItems.map { $0.ingredientID })
     }
 
     private var groceries: [GroceryItem] {
         // Count occurrences of each ingredient UUID across all this-week meals
-        var counts: [String: Int] = [:]
+        var counts: [UUID: Int] = [:]
         for meal in thisWeekMeals {
             for id in meal.ingredientIDs {
                 counts[id, default: 0] += 1
             }
         }
 
-        // Build a lookup from UUID string → Ingredient
-        let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id.uuidString, $0) })
+        // Build a lookup from UUID → Ingredient
+        let lookup = Dictionary(uniqueKeysWithValues: allIngredients.map { ($0.id, $0) })
 
         // Resolve names and sort alphabetically
         return counts.compactMap { id, count in
@@ -135,11 +135,15 @@ struct GroceriesView: View {
 
     // MARK: - Actions
 
-    private func toggleCheck(ingredientID: String) {
+    private func toggleCheck(ingredientID: UUID) {
         if let existing = checkedItems.first(where: { $0.ingredientID == ingredientID }) {
-            modelContext.delete(existing)
+            try? database.write { db in
+                try GroceryCheck.delete(existing).execute(db)
+            }
         } else {
-            modelContext.insert(GroceryCheck(ingredientID: ingredientID))
+            try? database.write { db in
+                try GroceryCheck.insert { GroceryCheck(ingredientID: ingredientID) }.execute(db)
+            }
         }
     }
 
@@ -162,6 +166,6 @@ struct GroceriesView: View {
 // MARK: - Preview
 
 #Preview {
+    let _ = PreviewFixtures.prepare()
     GroceriesView()
-        .modelContainer(PreviewFixtures.makeContainer())
 }

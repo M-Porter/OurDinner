@@ -17,30 +17,40 @@ func appDatabase() throws -> any DatabaseWriter {
     migrator.eraseDatabaseOnSchemaChange = true
     #endif
 
-    migrator.registerMigration("v1") { db in
-        try #sql("""
-            CREATE TABLE "meals" (
-              "id"            TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
-              "name"          TEXT NOT NULL,
-              "isThisWeek"    INTEGER NOT NULL DEFAULT 0,
-              "ingredientIDs" TEXT NOT NULL DEFAULT '[]'
-            ) STRICT
-            """).execute(db)
-
-        try #sql("""
-            CREATE TABLE "ingredients" (
-              "id"   TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
-              "name" TEXT NOT NULL
-            ) STRICT
-            """).execute(db)
-
-        try #sql("""
-            CREATE TABLE "groceryChecks" (
-              "ingredientID" TEXT PRIMARY KEY NOT NULL
-            ) STRICT
-            """).execute(db)
-    }
-
+    migrator.registerMigrations()
+    
     try migrator.migrate(database)
     return database
+}
+
+extension DatabaseMigrator {
+    mutating func registerMigrations() {
+        registerV1Migration()
+    }
+
+    mutating private func registerV1Migration() {
+        registerMigration("v1") { db in
+            try #sql("""
+                CREATE TABLE "meals" (
+                  "id"            TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
+                  "name"          TEXT NOT NULL,
+                  "isThisWeek"    INTEGER NOT NULL DEFAULT 0,
+                  "ingredientIDs" TEXT NOT NULL DEFAULT '[]'
+                ) STRICT
+                """).execute(db)
+
+            try #sql("""
+                CREATE TABLE "ingredients" (
+                  "id"   TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
+                  "name" TEXT NOT NULL
+                ) STRICT
+                """).execute(db)
+
+            try #sql("""
+                CREATE TABLE "groceryChecks" (
+                  "ingredientID" TEXT PRIMARY KEY NOT NULL
+                ) STRICT
+                """).execute(db)
+        }
+    }
 }

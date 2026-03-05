@@ -9,7 +9,7 @@ import Foundation
 import SQLiteData
 
 @Table
-struct Meal: Identifiable {
+struct Meal: Identifiable, Hashable {
     let id: UUID
     var name: String
     var isThisWeek: Bool

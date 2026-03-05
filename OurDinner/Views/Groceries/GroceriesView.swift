@@ -142,7 +142,7 @@ struct GroceriesView: View {
             }
         } else {
             try? database.write { db in
-                try GroceryCheck.insert { $0 = GroceryCheck(ingredientID: ingredientID) }.execute(db)
+                try GroceryCheck.insert { GroceryCheck(ingredientID: ingredientID) }.execute(db)
             }
         }
     }

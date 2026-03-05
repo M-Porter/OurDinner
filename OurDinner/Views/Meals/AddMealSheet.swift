@@ -32,9 +32,9 @@ struct AddMealSheet: View {
 
         try? database.write { db in
             for ingredient in stagedIngredients {
-                try Ingredient.insert { $0 = ingredient }.execute(db)
+                try Ingredient.insert { ingredient }.execute(db)
             }
-            try Meal.insert { $0 = meal }.execute(db)
+            try Meal.insert { meal }.execute(db)
         }
 
         isPresented = false

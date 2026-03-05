@@ -20,6 +20,7 @@ struct MealDetailView: View {
 
     @State private var stagedIngredients: [Ingredient] = []
     @State private var showingDeleteConfirmation = false
+    @State private var showingDiscardConfirmation = false
 
     init(meal: Meal) {
         _meal = State(initialValue: meal)
@@ -100,8 +101,28 @@ struct MealDetailView: View {
         .scrollContentBackground(.hidden)
         .background(Color.listBackground)
         .navigationTitle(meal.name)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarBackButtonHidden(hasChanges)
+        .confirmationDialog(
+            "Discard changes?",
+            isPresented: $showingDiscardConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Discard Changes", role: .destructive) { dismiss() }
+            Button("Keep Editing", role: .cancel) { }
+        } message: {
+            Text("If you go back now, you will lose your changes.")
+        }
         .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                if hasChanges {
+                    Button {
+                        showingDiscardConfirmation = true
+                    } label: {
+                        Image(systemName: "chevron.left")
+                    }
+                }
+            }
             ToolbarItem(placement: .primaryAction) {
                 Button("Save") {
                     saveMeal()

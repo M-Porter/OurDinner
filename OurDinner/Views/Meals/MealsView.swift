@@ -41,7 +41,7 @@ struct MealsView: View {
             for check in checksToDelete {
                 try GroceryCheck.delete(check).execute(db)
             }
-            try Meal.update(updated).execute(db)
+            try Meal.update(updated.saving()).execute(db)
         }
     }
 
@@ -49,7 +49,7 @@ struct MealsView: View {
         var updated = meal
         updated.isThisWeek = true
         try? database.write { db in
-            try Meal.update(updated).execute(db)
+            try Meal.update(updated.saving()).execute(db)
         }
     }
 

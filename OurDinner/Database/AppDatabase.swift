@@ -35,14 +35,18 @@ extension DatabaseMigrator {
                   "id"            TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
                   "name"          TEXT NOT NULL,
                   "isThisWeek"    INTEGER NOT NULL DEFAULT 0,
-                  "ingredientIDs" TEXT NOT NULL DEFAULT '[]'
+                  "ingredientIDs" TEXT NOT NULL DEFAULT '[]',
+                  "createdAt"     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+                  "updatedAt"     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
                 ) STRICT
                 """).execute(db)
 
             try #sql("""
                 CREATE TABLE "ingredients" (
-                  "id"   TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
-                  "name" TEXT NOT NULL
+                  "id"        TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
+                  "name"      TEXT NOT NULL,
+                  "createdAt" TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+                  "updatedAt" TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
                 ) STRICT
                 """).execute(db)
 

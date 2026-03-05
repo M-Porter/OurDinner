@@ -15,4 +15,17 @@ struct Meal: Identifiable, Hashable {
     var isThisWeek: Bool
     @Column(as: [UUID].JSONRepresentation.self)
     var ingredientIDs: [UUID]
+    var createdAt: Date
+    var updatedAt: Date
+
+    static func create(name: String, isThisWeek: Bool = false, ingredientIDs: [UUID] = []) -> Meal {
+        let now = Date()
+        return Meal(id: UUID(), name: name, isThisWeek: isThisWeek, ingredientIDs: ingredientIDs, createdAt: now, updatedAt: now)
+    }
+
+    func saving() -> Self {
+        var copy = self
+        copy.updatedAt = Date()
+        return copy
+    }
 }

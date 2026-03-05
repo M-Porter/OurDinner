@@ -23,12 +23,7 @@ struct AddMealSheet: View {
         let trimmed = mealName.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
-        let meal = Meal(
-            id: UUID(),
-            name: trimmed,
-            isThisWeek: false,
-            ingredientIDs: pendingIngredientIDs
-        )
+        let meal = Meal.create(name: trimmed, ingredientIDs: pendingIngredientIDs)
 
         try? database.write { db in
             for ingredient in stagedIngredients {
@@ -57,7 +52,7 @@ struct AddMealSheet: View {
                 IngredientFormSection(
                     ingredientIDs: $pendingIngredientIDs,
                     onCreateIngredient: { name in
-                        let new = Ingredient(id: UUID(), name: name)
+                        let new = Ingredient.create(name: name)
                         stagedIngredients.append(new)
                         return new.id
                     }

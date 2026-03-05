@@ -27,7 +27,7 @@ struct MealDetailView: View {
             for ingredient in stagedIngredients {
                 try Ingredient.insert { ingredient }.execute(db)
             }
-            try Meal.update(meal).execute(db)
+            try Meal.update(meal.saving()).execute(db)
         }
         stagedIngredients = []
     }
@@ -78,7 +78,7 @@ struct MealDetailView: View {
             IngredientFormSection(
                 ingredientIDs: $meal.ingredientIDs,
                 onCreateIngredient: { name in
-                    let new = Ingredient(id: UUID(), name: name)
+                    let new = Ingredient.create(name: name)
                     stagedIngredients.append(new)
                     return new.id
                 },

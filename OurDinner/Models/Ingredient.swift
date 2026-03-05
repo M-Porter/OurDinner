@@ -12,4 +12,17 @@ import SQLiteData
 struct Ingredient: Identifiable {
     let id: UUID
     var name: String
+    var createdAt: Date
+    var updatedAt: Date
+
+    static func create(name: String) -> Ingredient {
+        let now = Date()
+        return Ingredient(id: UUID(), name: name, createdAt: now, updatedAt: now)
+    }
+
+    func saving() -> Self {
+        var copy = self
+        copy.updatedAt = Date()
+        return copy
+    }
 }

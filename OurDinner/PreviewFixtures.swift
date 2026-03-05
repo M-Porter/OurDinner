@@ -29,29 +29,7 @@ struct PreviewFixtures {
     /// Runs the full migration schema against an arbitrary DatabaseWriter.
     static func prepareDatabaseSchema(_ database: any DatabaseWriter) throws {
         var migrator = DatabaseMigrator()
-        migrator.registerMigration("v1") { db in
-            try #sql("""
-                CREATE TABLE "meals" (
-                  "id"            TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
-                  "name"          TEXT NOT NULL,
-                  "isThisWeek"    INTEGER NOT NULL DEFAULT 0,
-                  "ingredientIDs" TEXT NOT NULL DEFAULT '[]'
-                ) STRICT
-                """).execute(db)
-
-            try #sql("""
-                CREATE TABLE "ingredients" (
-                  "id"   TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
-                  "name" TEXT NOT NULL
-                ) STRICT
-                """).execute(db)
-
-            try #sql("""
-                CREATE TABLE "groceryChecks" (
-                  "ingredientID" TEXT PRIMARY KEY NOT NULL
-                ) STRICT
-                """).execute(db)
-        }
+        migrator.registerMigrations()
         try migrator.migrate(database)
     }
 
@@ -59,21 +37,22 @@ struct PreviewFixtures {
     @discardableResult
     static func seed(into database: any DatabaseWriter) throws -> (meals: [Meal], ingredients: [Ingredient]) {
         // MARK: Ingredients
-        let pasta       = Ingredient(id: UUID(), name: "Pasta")
-        let eggs        = Ingredient(id: UUID(), name: "Eggs")
-        let parmesan    = Ingredient(id: UUID(), name: "Parmesan")
-        let pancetta    = Ingredient(id: UUID(), name: "Pancetta")
-        let chicken     = Ingredient(id: UUID(), name: "Chicken")
-        let lime        = Ingredient(id: UUID(), name: "Lime")
-        let tortillas   = Ingredient(id: UUID(), name: "Tortillas")
-        let beef        = Ingredient(id: UUID(), name: "Beef")
-        let garlic      = Ingredient(id: UUID(), name: "Garlic")
-        let mozzarella  = Ingredient(id: UUID(), name: "Mozzarella")
-        let tomato      = Ingredient(id: UUID(), name: "Tomato")
-        let soy         = Ingredient(id: UUID(), name: "Soy Sauce")
-        let ginger      = Ingredient(id: UUID(), name: "Ginger")
-        let broth       = Ingredient(id: UUID(), name: "Chicken Broth")
-        let buns        = Ingredient(id: UUID(), name: "Buns")
+        let now = Date()
+        let pasta       = Ingredient(id: UUID(), name: "Pasta",         createdAt: now, updatedAt: now)
+        let eggs        = Ingredient(id: UUID(), name: "Eggs",          createdAt: now, updatedAt: now)
+        let parmesan    = Ingredient(id: UUID(), name: "Parmesan",      createdAt: now, updatedAt: now)
+        let pancetta    = Ingredient(id: UUID(), name: "Pancetta",      createdAt: now, updatedAt: now)
+        let chicken     = Ingredient(id: UUID(), name: "Chicken",       createdAt: now, updatedAt: now)
+        let lime        = Ingredient(id: UUID(), name: "Lime",          createdAt: now, updatedAt: now)
+        let tortillas   = Ingredient(id: UUID(), name: "Tortillas",     createdAt: now, updatedAt: now)
+        let beef        = Ingredient(id: UUID(), name: "Beef",          createdAt: now, updatedAt: now)
+        let garlic      = Ingredient(id: UUID(), name: "Garlic",        createdAt: now, updatedAt: now)
+        let mozzarella  = Ingredient(id: UUID(), name: "Mozzarella",    createdAt: now, updatedAt: now)
+        let tomato      = Ingredient(id: UUID(), name: "Tomato",        createdAt: now, updatedAt: now)
+        let soy         = Ingredient(id: UUID(), name: "Soy Sauce",     createdAt: now, updatedAt: now)
+        let ginger      = Ingredient(id: UUID(), name: "Ginger",        createdAt: now, updatedAt: now)
+        let broth       = Ingredient(id: UUID(), name: "Chicken Broth", createdAt: now, updatedAt: now)
+        let buns        = Ingredient(id: UUID(), name: "Buns",          createdAt: now, updatedAt: now)
 
         let ingredients = [pasta, eggs, parmesan, pancetta, chicken, lime,
                            tortillas, beef, garlic, mozzarella, tomato,
@@ -82,27 +61,33 @@ struct PreviewFixtures {
         // MARK: Meals
         let carbonara = Meal(
             id: UUID(), name: "Pasta Carbonara", isThisWeek: true,
-            ingredientIDs: [pasta, eggs, parmesan, pancetta, garlic].map(\.id)
+            ingredientIDs: [pasta, eggs, parmesan, pancetta, garlic].map(\.id),
+            createdAt: now, updatedAt: now
         )
         let tacos = Meal(
             id: UUID(), name: "Tacos", isThisWeek: true,
-            ingredientIDs: [chicken, lime, tortillas, garlic].map(\.id)
+            ingredientIDs: [chicken, lime, tortillas, garlic].map(\.id),
+            createdAt: now, updatedAt: now
         )
         let pizza = Meal(
             id: UUID(), name: "Pizza", isThisWeek: false,
-            ingredientIDs: [mozzarella, tomato, garlic].map(\.id)
+            ingredientIDs: [mozzarella, tomato, garlic].map(\.id),
+            createdAt: now, updatedAt: now
         )
         let stirFry = Meal(
             id: UUID(), name: "Stir Fry", isThisWeek: false,
-            ingredientIDs: [chicken, soy, ginger, garlic].map(\.id)
+            ingredientIDs: [chicken, soy, ginger, garlic].map(\.id),
+            createdAt: now, updatedAt: now
         )
         let chickenSoup = Meal(
             id: UUID(), name: "Chicken Soup", isThisWeek: false,
-            ingredientIDs: [chicken, broth, garlic].map(\.id)
+            ingredientIDs: [chicken, broth, garlic].map(\.id),
+            createdAt: now, updatedAt: now
         )
         let burgers = Meal(
             id: UUID(), name: "Burgers", isThisWeek: false,
-            ingredientIDs: [beef, buns, tomato].map(\.id)
+            ingredientIDs: [beef, buns, tomato].map(\.id),
+            createdAt: now, updatedAt: now
         )
 
         let meals = [carbonara, tacos, pizza, stirFry, chickenSoup, burgers]

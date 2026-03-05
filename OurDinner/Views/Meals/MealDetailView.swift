@@ -25,7 +25,7 @@ struct MealDetailView: View {
     private func saveMeal() {
         try? database.write { db in
             for ingredient in stagedIngredients {
-                try Ingredient.insert(ingredient).execute(db)
+                try Ingredient.insert { $0 = ingredient }.execute(db)
             }
             try Meal.update(meal).execute(db)
         }

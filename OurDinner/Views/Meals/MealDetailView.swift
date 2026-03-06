@@ -77,75 +77,77 @@ struct MealDetailView: View {
     // MARK: - Body
 
     var body: some View {
-        Form {
-            Section {
-                TextField("Meal name", text: $meal.name)
-                    .listRowBackground(Color.rowBackground)
-            } header: {
-                Text("Meal Name")
-                    .foregroundStyle(Color.primaryAccent)
-                    .textCase(nil)
-            }
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Meal name", text: $meal.name)
+                        .listRowBackground(Color.rowBackground)
+                } header: {
+                    Text("Meal Name")
+                        .foregroundStyle(Color.primaryAccent)
+                        .textCase(nil)
+                }
 
-            IngredientFormSection(
-                ingredientIDs: $meal.ingredientIDs,
-                stagedIngredients: stagedIngredients,
-                onCreateIngredient: { name in
-                    let new = Ingredient.create(name: name)
-                    stagedIngredients.append(new)
-                    return new.id
-                },
-                customRowBackground: true
-            )
-        }
-        .scrollContentBackground(.hidden)
-        .background(Color.listBackground)
-        .navigationTitle(meal.name)
-        .navigationBarTitleDisplayMode(.large)
-        .navigationBarBackButtonHidden(hasChanges)
-        .confirmationDialog(
-            "Discard changes?",
-            isPresented: $showingDiscardConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("Discard Changes", role: .destructive) { dismiss() }
-            Button("Keep Editing", role: .cancel) { }
-        } message: {
-            Text("If you go back now, you will lose your changes.")
-        }
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                if hasChanges {
-                    Button {
-                        showingDiscardConfirmation = true
-                    } label: {
-                        Image(systemName: "chevron.left")
+                IngredientFormSection(
+                    ingredientIDs: $meal.ingredientIDs,
+                    stagedIngredients: stagedIngredients,
+                    onCreateIngredient: { name in
+                        let new = Ingredient.create(name: name)
+                        stagedIngredients.append(new)
+                        return new.id
+                    },
+                    customRowBackground: true
+                )
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.listBackground)
+            .navigationTitle(meal.name)
+            .navigationBarTitleDisplayMode(.large)
+            .interactiveDismissDisabled(hasChanges)
+            .toolbarBackground(Color.listBackground, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        if hasChanges {
+                            showingDiscardConfirmation = true
+                        } else {
+                            dismiss()
+                        }
+                    }
+                    .confirmationDialog(
+                        "Discard changes?",
+                        isPresented: $showingDiscardConfirmation,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Discard Changes", role: .destructive) { dismiss() }
+                        Button("Keep Editing", role: .cancel) { }
+                    } message: {
+                        Text("If you go back now, you will lose your changes.")
                     }
                 }
-            }
-            ToolbarItem(placement: .primaryAction) {
-                Button("Save") {
-                    saveMeal()
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Save") {
+                        saveMeal()
+                    }
+                    .disabled(!hasChanges)
                 }
-                .fontWeight(.medium)
-                .disabled(!hasChanges)
-            }
-            ToolbarItem(placement: .destructiveAction) {
-                Button(role: .destructive) {
-                    showingDeleteConfirmation = true
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-                .confirmationDialog(
-                    "Delete \(meal.name)?",
-                    isPresented: $showingDeleteConfirmation,
-                    titleVisibility: .visible
-                ) {
-                    Button("Delete Meal", role: .destructive) { deleteMeal() }
-                    Button("Cancel", role: .cancel) { }
-                } message: {
-                    Text("This will permanently delete the meal and any ingredients not used by other meals.")
+                ToolbarItem(placement: .destructiveAction) {
+                    Button(role: .destructive) {
+                        showingDeleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    .confirmationDialog(
+                        "Delete \(meal.name)?",
+                        isPresented: $showingDeleteConfirmation,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Delete Meal", role: .destructive) { deleteMeal() }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("This will permanently delete the meal and any ingredients not used by other meals.")
+                    }
                 }
             }
         }
@@ -158,7 +160,5 @@ struct MealDetailView: View {
     let db = PreviewFixtures.prepare()
     let meal = try! PreviewFixtures.seed(into: db).meals.first!
 
-    NavigationStack {
-        MealDetailView(meal: meal)
-    }
+    MealDetailView(meal: meal)
 }

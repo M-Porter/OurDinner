@@ -19,7 +19,7 @@ struct AddMealSheet: View {
 
     // MARK: - Actions
 
-    private func confirmMeal() {
+    private func saveMeal() {
         let trimmed = mealName.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
@@ -34,7 +34,7 @@ struct AddMealSheet: View {
 
         isPresented = false
     }
-    
+
     private func canSaveMeal() -> Bool {
         return !mealName.trimmingCharacters(in: .whitespaces).isEmpty
             && stagedIngredients.count > 0
@@ -74,7 +74,7 @@ struct AddMealSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
-                        confirmMeal()
+                        saveMeal()
                     }
                     .fontWeight(.semibold)
                     .disabled(!canSaveMeal())

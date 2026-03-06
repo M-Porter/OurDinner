@@ -20,7 +20,6 @@ struct ContentView: View {
                     Label("Groceries", systemImage: "cart")
                 }
         }
-        .tint(.primaryAccent)
     }
 }
 

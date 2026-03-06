@@ -14,6 +14,7 @@ struct MealsView: View {
     @FetchAll var groceryChecks: [GroceryCheck]
 
     @State private var showingAddMeal = false
+    @State private var selectedMeal: Meal? = nil
     @AppStorage("hasSeenSwipeHint") private var hasSeenSwipeHint = false
 
     private var thisWeekMeals: [Meal] {
@@ -65,6 +66,7 @@ struct MealsView: View {
                     meals: meals,
                     hasSeenSwipeHint: $hasSeenSwipeHint,
                     showingAddMeal: $showingAddMeal,
+                    selectedMeal: $selectedMeal,
                     onToggle: addMealToThisWeek
                 )
             }
@@ -72,11 +74,11 @@ struct MealsView: View {
             .scrollContentBackground(.hidden)
             .background(Color.listBackground)
             .navigationTitle("Meals")
-            .navigationDestination(for: Meal.self) { meal in
-                MealDetailView(meal: meal)
-            }
             .sheet(isPresented: $showingAddMeal) {
                 AddMealSheet(isPresented: $showingAddMeal)
+            }
+            .sheet(item: $selectedMeal) { meal in
+                MealDetailView(meal: meal)
             }
         }
     }

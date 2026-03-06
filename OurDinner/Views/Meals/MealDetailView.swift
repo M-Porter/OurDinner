@@ -81,11 +81,9 @@ struct MealDetailView: View {
             Form {
                 Section {
                     TextField("Meal name", text: $meal.name)
-                        .listRowBackground(Color.rowBackground)
                 } header: {
                     Text("Meal Name")
                         .foregroundStyle(Color.primaryAccent)
-                        .textCase(nil)
                 }
 
                 IngredientFormSection(
@@ -98,8 +96,6 @@ struct MealDetailView: View {
                     }
                 )
             }
-            .scrollContentBackground(.hidden)
-            .background(Color.listBackground)
             .navigationTitle(meal.name)
             .navigationBarTitleDisplayMode(.large)
             .interactiveDismissDisabled(hasChanges)
@@ -130,7 +126,7 @@ struct MealDetailView: View {
                     }
                     .disabled(!hasChanges)
                 }
-                ToolbarItem(placement: .destructiveAction) {
+                ToolbarItem(placement: .secondaryAction) {
                     Button(role: .destructive) {
                         showingDeleteConfirmation = true
                     } label: {

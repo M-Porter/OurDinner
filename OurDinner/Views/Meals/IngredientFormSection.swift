@@ -91,14 +91,12 @@ struct IngredientFormSection: View {
                         }
                         .tint(.red)
                     }
-                    .listRowBackground(Color.rowBackground)
             }
 
             // Text field row
             TextField("Add ingredient...", text: $ingredientQuery)
                 .focused($ingredientFieldFocused)
                 .onSubmit { addIngredientFromQuery() }
-                .listRowBackground(Color.rowBackground)
 
             // Suggestion rows
             ForEach(suggestions) { ingredient in

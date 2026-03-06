@@ -48,6 +48,7 @@ struct AddMealSheet: View {
                 Section {
                     TextField("Meal name", text: $mealName)
                         .focused($mealNameFocused)
+                        .listRowBackground(Color.rowBackground)
                 } header: {
                     Text("Meal Name")
                         .foregroundStyle(Color.primaryAccent)
@@ -66,6 +67,8 @@ struct AddMealSheet: View {
             }
             .navigationTitle("Add Meal")
             .navigationBarTitleDisplayMode(.inline)
+            .scrollContentBackground(.hidden)
+            .background(Color.listBackground)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {

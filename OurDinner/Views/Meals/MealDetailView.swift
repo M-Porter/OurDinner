@@ -95,8 +95,7 @@ struct MealDetailView: View {
                         let new = Ingredient.create(name: name)
                         stagedIngredients.append(new)
                         return new.id
-                    },
-                    customRowBackground: true
+                    }
                 )
             }
             .scrollContentBackground(.hidden)

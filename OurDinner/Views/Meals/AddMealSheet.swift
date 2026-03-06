@@ -19,7 +19,7 @@ struct AddMealSheet: View {
 
     // MARK: - Actions
 
-    private func confirmMeal() {
+    private func saveMeal() {
         let trimmed = mealName.trimmingCharacters(in: .whitespaces)
         guard !trimmed.isEmpty else { return }
 
@@ -35,6 +35,11 @@ struct AddMealSheet: View {
         isPresented = false
     }
 
+    private func canSaveMeal() -> Bool {
+        return !mealName.trimmingCharacters(in: .whitespaces).isEmpty
+            && stagedIngredients.count > 0
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -43,6 +48,7 @@ struct AddMealSheet: View {
                 Section {
                     TextField("Meal name", text: $mealName)
                         .focused($mealNameFocused)
+                        .listRowBackground(Color.rowBackground)
                 } header: {
                     Text("Meal Name")
                         .foregroundStyle(Color.primaryAccent)
@@ -61,22 +67,20 @@ struct AddMealSheet: View {
             }
             .navigationTitle("Add Meal")
             .navigationBarTitleDisplayMode(.inline)
+            .scrollContentBackground(.hidden)
+            .background(Color.listBackground)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         isPresented = false
                     }
-                    .foregroundStyle(Color.primaryAccent)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Add") {
-                        confirmMeal()
+                        saveMeal()
                     }
                     .fontWeight(.semibold)
-                    .foregroundStyle(mealName.trimmingCharacters(in: .whitespaces).isEmpty
-                                     ? Color.secondary
-                                     : Color.actionButton)
-                    .disabled(mealName.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled(!canSaveMeal())
                 }
             }
             .onAppear { mealNameFocused = true }

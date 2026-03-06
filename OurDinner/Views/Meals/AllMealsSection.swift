@@ -11,15 +11,19 @@ struct AllMealsSection: View {
     let meals: [Meal]
     @Binding var hasSeenSwipeHint: Bool
     @Binding var showingAddMeal: Bool
+    @Binding var selectedMeal: Meal?
     var onToggle: (Meal) -> Void
 
     var body: some View {
         Section {
             ForEach(meals) { meal in
-                NavigationLink(value: meal) {
+                Button {
+                    selectedMeal = meal
+                } label: {
                     HStack {
                         Text(meal.name)
                             .font(.body)
+                            .foregroundStyle(Color.primary)
                         Spacer()
                         ThisWeekToggle(isThisWeek: meal.isThisWeek) {
                             withAnimation {
@@ -32,6 +36,7 @@ struct AllMealsSection: View {
                         }
                     }
                 }
+                .buttonStyle(.plain)
                 .listRowBackground(Color.rowBackground)
                 .listRowSeparatorTint(Color.rowSeparator)
             }
@@ -62,6 +67,7 @@ struct AllMealsSection: View {
             meals: try! PreviewFixtures.seed(into: db).meals,
             hasSeenSwipeHint: .constant(true),
             showingAddMeal: .constant(false),
+            selectedMeal: .constant(nil),
             onToggle: { _ in }
         )
     }

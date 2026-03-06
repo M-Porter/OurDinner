@@ -36,6 +36,13 @@ struct PreviewFixtures {
     /// Seeds all fixture ingredients and meals into the given database.
     @discardableResult
     static func seed(into database: any DatabaseWriter) throws -> (meals: [Meal], ingredients: [Ingredient]) {
+        // Truncate DB so we don't have double data
+        try database.write { db in
+            try Meal.delete().execute(db)
+            try Ingredient.delete().execute(db)
+            try GroceryCheck.delete().execute(db)
+        }
+
         // MARK: Ingredients
         let now = Date()
         let pasta       = Ingredient(id: UUID(), name: "Pasta",         createdAt: now, updatedAt: now)

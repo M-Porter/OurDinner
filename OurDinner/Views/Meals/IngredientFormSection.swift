@@ -17,8 +17,6 @@ struct IngredientFormSection: View {
     /// The closure should create and stage the ingredient, then return its ID.
     var onCreateIngredient: (String) -> UUID
 
-    var customRowBackground: Bool = false
-
     @State private var ingredientQuery = ""
     @FocusState private var ingredientFieldFocused: Bool
 
@@ -93,14 +91,14 @@ struct IngredientFormSection: View {
                         }
                         .tint(.red)
                     }
-                    .listRowBackground(customRowBackground ? Color.rowBackground : nil)
+                    .listRowBackground(Color.rowBackground)
             }
 
             // Text field row
             TextField("Add ingredient...", text: $ingredientQuery)
                 .focused($ingredientFieldFocused)
                 .onSubmit { addIngredientFromQuery() }
-                .listRowBackground(customRowBackground ? Color.rowBackground : nil)
+                .listRowBackground(Color.rowBackground)
 
             // Suggestion rows
             ForEach(suggestions) { ingredient in
@@ -115,7 +113,7 @@ struct IngredientFormSection: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                .listRowBackground(customRowBackground ? Color.rowBackground : nil)
+                .listRowBackground(Color.rowBackground)
             }
 
             // "Add new" row when no exact match
@@ -131,7 +129,7 @@ struct IngredientFormSection: View {
                             .foregroundStyle(Color.primaryAccent)
                     }
                 }
-                .listRowBackground(customRowBackground ? Color.rowBackground : nil)
+                .listRowBackground(Color.rowBackground)
             }
         } header: {
             Text("Ingredients")

@@ -10,6 +10,7 @@ import SQLiteData
 
 struct MealDetailView: View {
     @State var meal: Meal
+    @State private var originalMeal: Meal
 
     @Dependency(\.defaultDatabase) var database
     @Environment(\.dismiss) private var dismiss
@@ -19,8 +20,18 @@ struct MealDetailView: View {
 
     @State private var stagedIngredients: [Ingredient] = []
     @State private var showingDeleteConfirmation = false
+    @State private var showingDiscardConfirmation = false
+
+    init(meal: Meal) {
+        _meal = State(initialValue: meal)
+        _originalMeal = State(initialValue: meal)
+    }
 
     // MARK: - Actions
+
+    private var hasChanges: Bool {
+        !stagedIngredients.isEmpty || meal != originalMeal
+    }
 
     private func saveMeal() {
         try? database.write { db in
@@ -30,6 +41,7 @@ struct MealDetailView: View {
             try Meal.update(meal.saving()).execute(db)
         }
         stagedIngredients = []
+        originalMeal = meal
     }
 
     private func deleteMeal() {
@@ -65,60 +77,77 @@ struct MealDetailView: View {
     // MARK: - Body
 
     var body: some View {
-        Form {
-            Section {
-                TextField("Meal name", text: $meal.name)
-                    .listRowBackground(Color.rowBackground)
-            } header: {
-                Text("Meal Name")
-                    .foregroundStyle(Color.primaryAccent)
-                    .textCase(nil)
-            }
+        NavigationStack {
+            Form {
+                Section {
+                    TextField("Meal name", text: $meal.name)
+                        .listRowBackground(Color.rowBackground)
+                } header: {
+                    Text("Meal Name")
+                        .foregroundStyle(Color.primaryAccent)
+                        .textCase(nil)
+                }
 
-            IngredientFormSection(
-                ingredientIDs: $meal.ingredientIDs,
-                stagedIngredients: stagedIngredients,
-                onCreateIngredient: { name in
-                    let new = Ingredient.create(name: name)
-                    stagedIngredients.append(new)
-                    return new.id
-                },
-                customRowBackground: true
-            )
-
-            Section {
-                Button(role: .destructive) {
-                    showingDeleteConfirmation = true
-                } label: {
-                    Text("Delete Meal")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
-                .listRowBackground(Color.red)
-                .confirmationDialog(
-                    "Delete \(meal.name)?",
-                    isPresented: $showingDeleteConfirmation,
-                    titleVisibility: .visible
-                ) {
-                    Button("Delete Meal", role: .destructive) { deleteMeal() }
-                    Button("Cancel", role: .cancel) { }
-                } message: {
-                    Text("This will permanently delete the meal and any ingredients not used by other meals.")
-                }
+                IngredientFormSection(
+                    ingredientIDs: $meal.ingredientIDs,
+                    stagedIngredients: stagedIngredients,
+                    onCreateIngredient: { name in
+                        let new = Ingredient.create(name: name)
+                        stagedIngredients.append(new)
+                        return new.id
+                    }
+                )
             }
-        }
-        .scrollContentBackground(.hidden)
-        .background(Color.listBackground)
-        .navigationTitle(meal.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    saveMeal()
+            .scrollContentBackground(.hidden)
+            .background(Color.listBackground)
+            .navigationTitle(meal.name)
+            .navigationBarTitleDisplayMode(.large)
+            .interactiveDismissDisabled(hasChanges)
+            .toolbarBackground(Color.listBackground, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        if hasChanges {
+                            showingDiscardConfirmation = true
+                        } else {
+                            dismiss()
+                        }
+                    }
+                    .confirmationDialog(
+                        "Discard changes?",
+                        isPresented: $showingDiscardConfirmation,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Discard Changes", role: .destructive) { dismiss() }
+                        Button("Keep Editing", role: .cancel) { }
+                    } message: {
+                        Text("If you go back now, you will lose your changes.")
+                    }
                 }
-                .fontWeight(.semibold)
-                .foregroundStyle(Color.actionButton)
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Save") {
+                        saveMeal()
+                    }
+                    .disabled(!hasChanges)
+                }
+                ToolbarItem(placement: .destructiveAction) {
+                    Button(role: .destructive) {
+                        showingDeleteConfirmation = true
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    .confirmationDialog(
+                        "Delete \(meal.name)?",
+                        isPresented: $showingDeleteConfirmation,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Delete Meal", role: .destructive) { deleteMeal() }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("This will permanently delete the meal and any ingredients not used by other meals.")
+                    }
+                }
             }
         }
     }
@@ -130,7 +159,5 @@ struct MealDetailView: View {
     let db = PreviewFixtures.prepare()
     let meal = try! PreviewFixtures.seed(into: db).meals.first!
 
-    NavigationStack {
-        MealDetailView(meal: meal)
-    }
+    MealDetailView(meal: meal)
 }

@@ -1,6 +1,6 @@
 //
 //  ThisWeekSection.swift
-//  OurDinner
+//  PrixFixe
 //
 //  Created by Matthew Porter on 2/28/26.
 //

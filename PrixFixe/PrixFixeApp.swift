@@ -1,6 +1,6 @@
 //
-//  OurDinnerApp.swift
-//  OurDinner
+//  PrixFixeApp.swift
+//  PrixFixe
 //
 //  Created by Matthew Porter on 2/28/26.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import SQLiteData
 
 @main
-struct OurDinnerApp: App {
+struct PrixFixeApp: App {
     init() {
         prepareDependencies {
             $0.defaultDatabase = try! appDatabase()

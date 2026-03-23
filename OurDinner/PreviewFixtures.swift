@@ -1,6 +1,6 @@
 //
 //  PreviewFixtures.swift
-//  OurDinner
+//  PrixFixe
 //
 //  Created by Matthew Porter on 3/3/26.
 //

@@ -1,13 +1,13 @@
 //
-//  OurDinnerUITests.swift
-//  OurDinnerUITests
+//  PrixFixeUITests.swift
+//  PrixFixeUITests
 //
 //  Created by Matthew Porter on 2/28/26.
 //
 
 import XCTest
 
-final class OurDinnerUITests: XCTestCase {
+final class PrixFixeUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -15,7 +15,7 @@ final class OurDinnerUITests: XCTestCase {
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        // In UI tests it's important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
     override func tearDownWithError() throws {

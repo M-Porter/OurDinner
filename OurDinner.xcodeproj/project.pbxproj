@@ -17,23 +17,23 @@
 			containerPortal = 20BB0C292F53DC92007AC0F8 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 20BB0C302F53DC92007AC0F8;
-			remoteInfo = OurDinner;
+			remoteInfo = PrixFixe;
 		};
 		20BB0C4B2F53DC92007AC0F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 20BB0C292F53DC92007AC0F8 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 20BB0C302F53DC92007AC0F8;
-			remoteInfo = OurDinner;
+			remoteInfo = PrixFixe;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		203BD1662F57963B00415EAB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		203BD1672F57963B00415EAB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		20BB0C312F53DC92007AC0F8 /* OurDinner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OurDinner.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		20BB0C402F53DC92007AC0F8 /* OurDinnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OurDinnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		20BB0C4A2F53DC92007AC0F8 /* OurDinnerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OurDinnerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20BB0C312F53DC92007AC0F8 /* PrixFixe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrixFixe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20BB0C402F53DC92007AC0F8 /* PrixFixeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrixFixeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		20BB0C4A2F53DC92007AC0F8 /* PrixFixeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrixFixeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -42,7 +42,7 @@
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 20BB0C302F53DC92007AC0F8 /* OurDinner */;
+			target = 20BB0C302F53DC92007AC0F8 /* PrixFixe */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -109,9 +109,9 @@
 		20BB0C322F53DC92007AC0F8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				20BB0C312F53DC92007AC0F8 /* OurDinner.app */,
-				20BB0C402F53DC92007AC0F8 /* OurDinnerTests.xctest */,
-				20BB0C4A2F53DC92007AC0F8 /* OurDinnerUITests.xctest */,
+				20BB0C312F53DC92007AC0F8 /* PrixFixe.app */,
+				20BB0C402F53DC92007AC0F8 /* PrixFixeTests.xctest */,
+				20BB0C4A2F53DC92007AC0F8 /* PrixFixeUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,9 +119,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		20BB0C302F53DC92007AC0F8 /* OurDinner */ = {
+		20BB0C302F53DC92007AC0F8 /* PrixFixe */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 20BB0C542F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinner" */;
+			buildConfigurationList = 20BB0C542F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixe" */;
 			buildPhases = (
 				20BB0C2D2F53DC92007AC0F8 /* Sources */,
 				20BB0C2E2F53DC92007AC0F8 /* Frameworks */,
@@ -134,17 +134,17 @@
 			fileSystemSynchronizedGroups = (
 				20BB0C332F53DC92007AC0F8 /* OurDinner */,
 			);
-			name = OurDinner;
+			name = PrixFixe;
 			packageProductDependencies = (
 				20B165172F59F6BC00934C9B /* SQLiteData */,
 			);
-			productName = OurDinner;
-			productReference = 20BB0C312F53DC92007AC0F8 /* OurDinner.app */;
+			productName = PrixFixe;
+			productReference = 20BB0C312F53DC92007AC0F8 /* PrixFixe.app */;
 			productType = "com.apple.product-type.application";
 		};
-		20BB0C3F2F53DC92007AC0F8 /* OurDinnerTests */ = {
+		20BB0C3F2F53DC92007AC0F8 /* PrixFixeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 20BB0C572F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinnerTests" */;
+			buildConfigurationList = 20BB0C572F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixeTests" */;
 			buildPhases = (
 				20BB0C3C2F53DC92007AC0F8 /* Sources */,
 				20BB0C3D2F53DC92007AC0F8 /* Frameworks */,
@@ -158,17 +158,17 @@
 			fileSystemSynchronizedGroups = (
 				20BB0C432F53DC92007AC0F8 /* OurDinnerTests */,
 			);
-			name = OurDinnerTests;
+			name = PrixFixeTests;
 			packageProductDependencies = (
 				20B165192F59F6BC00934C9B /* SQLiteDataTestSupport */,
 			);
-			productName = OurDinnerTests;
-			productReference = 20BB0C402F53DC92007AC0F8 /* OurDinnerTests.xctest */;
+			productName = PrixFixeTests;
+			productReference = 20BB0C402F53DC92007AC0F8 /* PrixFixeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		20BB0C492F53DC92007AC0F8 /* OurDinnerUITests */ = {
+		20BB0C492F53DC92007AC0F8 /* PrixFixeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 20BB0C5A2F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinnerUITests" */;
+			buildConfigurationList = 20BB0C5A2F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixeUITests" */;
 			buildPhases = (
 				20BB0C462F53DC92007AC0F8 /* Sources */,
 				20BB0C472F53DC92007AC0F8 /* Frameworks */,
@@ -182,11 +182,11 @@
 			fileSystemSynchronizedGroups = (
 				20BB0C4D2F53DC92007AC0F8 /* OurDinnerUITests */,
 			);
-			name = OurDinnerUITests;
+			name = PrixFixeUITests;
 			packageProductDependencies = (
 			);
-			productName = OurDinnerUITests;
-			productReference = 20BB0C4A2F53DC92007AC0F8 /* OurDinnerUITests.xctest */;
+			productName = PrixFixeUITests;
+			productReference = 20BB0C4A2F53DC92007AC0F8 /* PrixFixeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -212,7 +212,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */;
+			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -229,9 +229,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				20BB0C302F53DC92007AC0F8 /* OurDinner */,
-				20BB0C3F2F53DC92007AC0F8 /* OurDinnerTests */,
-				20BB0C492F53DC92007AC0F8 /* OurDinnerUITests */,
+				20BB0C302F53DC92007AC0F8 /* PrixFixe */,
+				20BB0C3F2F53DC92007AC0F8 /* PrixFixeTests */,
+				20BB0C492F53DC92007AC0F8 /* PrixFixeUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -287,12 +287,12 @@
 /* Begin PBXTargetDependency section */
 		20BB0C422F53DC92007AC0F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 20BB0C302F53DC92007AC0F8 /* OurDinner */;
+			target = 20BB0C302F53DC92007AC0F8 /* PrixFixe */;
 			targetProxy = 20BB0C412F53DC92007AC0F8 /* PBXContainerItemProxy */;
 		};
 		20BB0C4C2F53DC92007AC0F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 20BB0C302F53DC92007AC0F8 /* OurDinner */;
+			target = 20BB0C302F53DC92007AC0F8 /* PrixFixe */;
 			targetProxy = 20BB0C4B2F53DC92007AC0F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -424,7 +424,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = OurDinner/OurDinner.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OurDinner/PrixFixe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
@@ -433,6 +433,7 @@
 				INFOPLIST_FILE = OurDinner/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -441,7 +442,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -458,7 +459,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = OurDinner/OurDinner.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OurDinner/PrixFixe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
@@ -467,6 +468,7 @@
 				INFOPLIST_FILE = OurDinner/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -475,7 +477,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinner;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -497,7 +499,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -505,7 +507,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OurDinner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OurDinner";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrixFixe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PrixFixe";
 			};
 			name = Debug;
 		};
@@ -519,7 +521,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -527,7 +529,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OurDinner.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OurDinner";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PrixFixe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PrixFixe";
 			};
 			name = Release;
 		};
@@ -539,7 +541,7 @@
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinnerUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -547,7 +549,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OurDinner;
+				TEST_TARGET_NAME = PrixFixe;
 			};
 			name = Debug;
 		};
@@ -559,7 +561,7 @@
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.OurDinnerUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mporter.PrixFixeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -567,14 +569,14 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OurDinner;
+				TEST_TARGET_NAME = PrixFixe;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */ = {
+		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C522F53DC92007AC0F8 /* Debug */,
@@ -583,7 +585,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		20BB0C542F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinner" */ = {
+		20BB0C542F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C552F53DC92007AC0F8 /* Debug */,
@@ -592,7 +594,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		20BB0C572F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinnerTests" */ = {
+		20BB0C572F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C582F53DC92007AC0F8 /* Debug */,
@@ -601,7 +603,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		20BB0C5A2F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "OurDinnerUITests" */ = {
+		20BB0C5A2F53DC92007AC0F8 /* Build configuration list for PBXNativeTarget "PrixFixeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C5B2F53DC92007AC0F8 /* Debug */,

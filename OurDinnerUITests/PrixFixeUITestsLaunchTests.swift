@@ -1,13 +1,13 @@
 //
-//  OurDinnerUITestsLaunchTests.swift
-//  OurDinnerUITests
+//  PrixFixeUITestsLaunchTests.swift
+//  PrixFixeUITests
 //
 //  Created by Matthew Porter on 2/28/26.
 //
 
 import XCTest
 
-final class OurDinnerUITestsLaunchTests: XCTestCase {
+final class PrixFixeUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

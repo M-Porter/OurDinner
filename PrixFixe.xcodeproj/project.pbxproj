@@ -212,7 +212,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */;
+			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -424,13 +424,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = OurDinner/PrixFixe.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PrixFixe/PrixFixe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OurDinner/Info.plist;
+				INFOPLIST_FILE = PrixFixe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -459,13 +459,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = OurDinner/PrixFixe.entitlements;
+				CODE_SIGN_ENTITLEMENTS = PrixFixe/PrixFixe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JHH6M2ESZ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OurDinner/Info.plist;
+				INFOPLIST_FILE = PrixFixe/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -576,7 +576,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */ = {
+		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C522F53DC92007AC0F8 /* Debug */,

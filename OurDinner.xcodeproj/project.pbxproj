@@ -37,7 +37,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		20BB0C5F2F53DD18007AC0F8 /* Exceptions for "OurDinner" folder in "OurDinner" target */ = {
+		20BB0C5F2F53DD18007AC0F8 /* Exceptions for "PrixFixe" folder in "PrixFixe" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -47,22 +47,22 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		20BB0C332F53DC92007AC0F8 /* OurDinner */ = {
+		20BB0C332F53DC92007AC0F8 /* PrixFixe */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				20BB0C5F2F53DD18007AC0F8 /* Exceptions for "OurDinner" folder in "OurDinner" target */,
+				20BB0C5F2F53DD18007AC0F8 /* Exceptions for "PrixFixe" folder in "PrixFixe" target */,
 			);
-			path = OurDinner;
+			path = PrixFixe;
 			sourceTree = "<group>";
 		};
-		20BB0C432F53DC92007AC0F8 /* OurDinnerTests */ = {
+		20BB0C432F53DC92007AC0F8 /* PrixFixeTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = OurDinnerTests;
+			path = PrixFixeTests;
 			sourceTree = "<group>";
 		};
-		20BB0C4D2F53DC92007AC0F8 /* OurDinnerUITests */ = {
+		20BB0C4D2F53DC92007AC0F8 /* PrixFixeUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = OurDinnerUITests;
+			path = PrixFixeUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -99,9 +99,9 @@
 			children = (
 				203BD1662F57963B00415EAB /* .gitignore */,
 				203BD1672F57963B00415EAB /* README.md */,
-				20BB0C332F53DC92007AC0F8 /* OurDinner */,
-				20BB0C432F53DC92007AC0F8 /* OurDinnerTests */,
-				20BB0C4D2F53DC92007AC0F8 /* OurDinnerUITests */,
+				20BB0C332F53DC92007AC0F8 /* PrixFixe */,
+				20BB0C432F53DC92007AC0F8 /* PrixFixeTests */,
+				20BB0C4D2F53DC92007AC0F8 /* PrixFixeUITests */,
 				20BB0C322F53DC92007AC0F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,7 +132,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				20BB0C332F53DC92007AC0F8 /* OurDinner */,
+				20BB0C332F53DC92007AC0F8 /* PrixFixe */,
 			);
 			name = PrixFixe;
 			packageProductDependencies = (
@@ -156,7 +156,7 @@
 				20BB0C422F53DC92007AC0F8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				20BB0C432F53DC92007AC0F8 /* OurDinnerTests */,
+				20BB0C432F53DC92007AC0F8 /* PrixFixeTests */,
 			);
 			name = PrixFixeTests;
 			packageProductDependencies = (
@@ -180,7 +180,7 @@
 				20BB0C4C2F53DC92007AC0F8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				20BB0C4D2F53DC92007AC0F8 /* OurDinnerUITests */,
+				20BB0C4D2F53DC92007AC0F8 /* PrixFixeUITests */,
 			);
 			name = PrixFixeUITests;
 			packageProductDependencies = (
@@ -212,7 +212,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */;
+			buildConfigurationList = 20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -431,9 +431,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OurDinner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -466,9 +466,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OurDinner/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Prix Fixe";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -576,7 +576,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "PrixFixe" */ = {
+		20BB0C2C2F53DC92007AC0F8 /* Build configuration list for PBXProject "OurDinner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				20BB0C522F53DC92007AC0F8 /* Debug */,
